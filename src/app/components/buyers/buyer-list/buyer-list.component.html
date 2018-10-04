@@ -1,0 +1,158 @@
+<div>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px' }"></ngx-loading>
+
+    <div class="container-fulid container-body" *ngIf='buyersAggregateResponse'>
+        <!-- IF Buyer List is empty-->
+        <div *ngIf='!buyersAggregateResponse.data.buyers || buyersAggregateResponse.data.buyers.length == 0'>
+            <app-no-buyer-seller-list [name]="'Buyer'" [navRoute]="'buyers-registration'" [canEdit]="'canEdit'"></app-no-buyer-seller-list>
+        </div>
+
+        <!-- IF Buyer List is not empty-->
+        <div *ngIf='buyersAggregateResponse.data.buyers && buyersAggregateResponse.data.buyers.length > 0'>
+            <div class="row mx-0">
+                <div class="col-6">
+                    <h2>Buyer’s List </h2>
+                </div>
+                <div class="col-6 text-right pt-4 pr-4">
+                    <button type="button" class="btn btn-outline-primary" (click)='onNewBuyerButtonClick()' [hidden]='!canEdit'>Add New Buyer</button>
+                <!-- <div class="col-6 text-right pt-4 pr-4">
+                    <button type="button" class="btn btn-outline-primary" (click)='onNewBuyerButtonClick()' [disabled]='!canEdit'>Add New Buyer</button>
+                </div> -->
+            </div>
+
+            <div class="card-body content-card-body ">
+                <!-- Filters-->
+                <div class="form-one">
+                    <div class="row justify-content-md-center">
+
+                        <div class="col col-lg-2">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Status
+                                </label>
+                                <div class="select-box">
+                                    <label>
+                                        <select class="form-control form-control-sm" (change)="changeStatus($event.target.value)">
+                                            <option [value]="nullVar" [selected]="selectedStatus == undefined">All Status</option>
+                                            <option [value]="'Pending'" [selected]="selectedStatus == 'Pending'">Pending </option>
+                                            <option [value]="'Approved'" [selected]="selectedStatus == 'Approved'">Approved </option>
+                                            <option [value]="'Rejected'" [selected]="selectedStatus == 'Rejected'">Rejected </option>             
+                                        </select>
+                                    </label>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col col-lg-2">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">State
+                                </label>
+                                <div class="select-box">
+                                    <label>
+                                        <select class="form-control form-control-sm" (change)='changeState($event.target.value)'>
+                                            <option [value]="nullVar" [selected]="selectedState == undefined">All States</option>
+                                            <option *ngFor="let state of buyersAggregateResponse.data.states" [value]="state._id">{{state.name}}</option>
+                                        </select>
+                                    </label>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col col-lg-2">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">City
+                                </label>
+                                <div class="select-box">
+                                    <label>
+                                        <select class="form-control form-control-sm" (change)='changeCity($event.target.value)'>
+                                            <option [value]="nullVar" [selected]="selectedCity == undefined">All Cities</option>
+                                            <option *ngFor="let city of displayCityList" [value]="city._id">{{city.name}}</option>
+                                        </select>
+                                    </label>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col col-lg-2">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Area/Location
+                                </label>
+                                <div class="select-box">
+                                    <label>
+                                        <select class="form-control form-control-sm" (change)='changeLocation($event.target.value)'>
+                                            <option [value]="nullVar" [selected]="selectedLocation == undefined">All Locations</option>
+                                            <option *ngFor="let location of displayLocationList" [value]="location._id">{{location.name}}</option>
+                                        </select>
+                                    </label>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col col-lg-2 search-icon">
+                            <label for="exampleInputEmail1">
+                            </label>
+                            <div class="input-group ">
+                                <input type='text' [(ngModel)]="searchCompany" class="form-control border-right-0" placeholder="Search by Company Name" (keyup)="searchByCompanyName($event.target.value)">
+                                <span class="input-group-addon bg-white border-left-0">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="col col-lg-2 mt-3">
+                                <!--Clear Filter-->
+                                <button type="button" class="btn btn-outline-danger ml-0 mb-2 text-left w-120" (click)='ClearFilter()'>
+                                        <i class="fa font-22 fa-times-circle" aria-hidden="true"></i> 
+                                        Clear Filter
+                                    </button>
+                            
+                            </div>
+
+                    </div>
+                </div>
+
+               
+
+                <!--Buyers List-->
+                <app-buyer-tile *ngFor="let buyer of displayBuyerList" [buyer]='buyer' (rejectClickEvent)="onRejectChildButtonClick($event)"></app-buyer-tile>
+                <div *ngIf="displayBuyerList.length == 0" class="block-content text-center">
+                    <h3 class="yellow"> No buyer found</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Reject Modal-->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                    <div class="modal-header">
+                            <h5 class="modal-title text-center" id="ReasonTitle">Reject Buyer</h5>
+                        </div>
+                <div class="modal-body">
+                    <div>
+                        
+                        <div class="form-group">
+                            Are you sure that you want to reject this buyer? If yes then please provide the reason for rejecting, else press cancel
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Reason:</label>
+                            <textarea class="form-control" id="message-text" [(ngModel)]="rejectReason"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn  btn-outline-dark" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)='onRejectButtonClick()'>Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

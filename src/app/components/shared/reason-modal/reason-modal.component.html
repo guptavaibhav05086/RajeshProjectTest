@@ -1,0 +1,31 @@
+<div class="backdrop" [ngStyle]="{'display':modalDisplay}"></div>
+
+<div id="bootstrapModel" class="modal Manufacturer_Reject_Popup" tabindex="-1" [ngStyle]="{'display':modalDisplay}" role="dialog" aria-labelledby="ReasonTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered " role="document">
+    <!-- Modal content-->
+    <div class="modal-content" *ngIf='modalObj'>
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="ReasonTitle">{{modalObj.header}}</h5>
+        <button type="button" class="close" (click)="modalClose(false)" aria-label="Close">
+          <span aria-hidden="true">&#10005;</span>
+        </button>
+      </div>
+      <!-- model body section -->
+      <div>
+        {{modalObj.subHeader}}
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" rows="3" [(ngModel)]="reasonText" placeholder="Enter Reason for Rejection"></textarea>
+      </div>
+      <div class="modal-footer">
+        <div class="container-fulid">
+          <div class=" my-3">
+            <div class="col text-center">
+              <button type="button" class="btn btn-primary" (click)="modalClose(true)">{{modalObj.buttonText}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

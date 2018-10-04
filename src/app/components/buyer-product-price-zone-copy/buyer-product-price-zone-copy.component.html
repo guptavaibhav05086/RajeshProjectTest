@@ -1,0 +1,204 @@
+<div class="modal-header">
+  <h5 class="modal-title text-center" id="NewPricingTitle">Copy Product Pricing to Other Products</h5>
+  <button type="button" class="close" (click)="activeModal.close('Cross click')">
+  <span aria-hidden="true">&#10005;</span>
+  </button>
+</div>
+<div class="modal-body mt-0 pt-0">
+  <div class="table-body">
+     <div class="table-filter">
+        <div class="row">
+           <div class="col">
+              <div class="form-group row">
+                 <label for="staticEmail" class="col-sm-5 col-form-label">Product Name:</label>
+                 <div class="col-sm-7">
+                    <input type="text" readonly="" class="form-control-plaintext font-weight-bold" value="{{product.name}}">
+                 </div>
+              </div>
+              
+              <div class="form-group row">
+                 <label for="staticEmail" class="col-sm-5 col-form-label">Category:</label>
+                 <div class="col-sm-7">
+                    <input type="text" readonly="" class="form-control-plaintext" value="{{product.category.name}}">
+                 </div>
+              </div>
+              
+              <div class="form-group row">
+                 <label for="staticEmail" class="col-sm-5 col-form-label">Product Type:</label>
+                 <div class="col-sm-7">
+                    <input type="text" readonly="" class="form-control-plaintext" value="{{product.type.name}}">
+                 </div>
+              </div>
+              <div class="form-group row">
+                 <label for="staticEmail" class="col-sm-5 col-form-label">Brand:</label>
+                 <div class="col-sm-7">
+                    <input type="text" readonly="" class="form-control-plaintext" value="{{product.brand.name}}">
+                 </div>
+              </div>
+           </div>
+           <div class="col">
+              <div class="form-group row">
+                 <label for="staticEmail" class="col-sm-5 col-form-label">Sub Category:</label>
+                 <div class="col-sm-7">
+                    <input type="text" readonly="" class="form-control-plaintext" value="{{product.subCategory.name}}">
+                 </div>
+              </div>
+              <div class="form-group row">
+                 <label for="staticEmail" class="col-sm-5 col-form-label">Grade/Spec:</label>
+                 <div class="col-sm-7">
+                    <input type="text" readonly="" class="form-control-plaintext" value="{{product.gradeOrSpec}}">
+                 </div>
+              </div>
+              <div class="form-group row">
+                 <label for="staticEmail" class="col-sm-5 col-form-label">UOM:</label>
+                 <div class="col-sm-7">
+                    <input type="text" readonly="" class="form-control-plaintext" value="{{product.uom}}">
+                 </div>
+              </div>
+              <div class="form-group row">
+                 <label for="staticEmail" class="col-sm-5 col-form-label">Product Code:</label>
+                 <div class="col-sm-7">
+                    <input type="text" readonly="" class="form-control-plaintext" value="{{product.code}}">
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+  </div>
+  <div class="form-one">
+     <div class="row justify-content-md-center">
+        <div class="col col-lg-3">
+           <div class="form-group">
+              <label for="exampleInputEmail1">Category
+              </label>
+              <!-- <div class="select-box">
+                 <label>
+                    <select class="form-control form-control-sm">
+                       <option value="aa" selected="selected">All Manufacturers</option>
+                       <option value="aaa">Manufacture 1 </option>
+                    </select>
+                 </label>
+              </div> -->
+              <div class="select-box">
+                  <label>
+                     <select class="form-control form-control-sm" id="category" (change)="filter()" [(ngModel)]="filterObject.catId">
+                         <option value="All"  >All  Categories</option>
+                         <option *ngFor="let cat of manufacturerProducts.categories" [value]="cat._id">{{cat.name}}</option>
+                     </select>
+                  </label>
+               </div>
+           </div>
+        </div>
+        <div class="col col-lg-3">
+           <div class="form-group">
+              <label for="exampleInputEmail1">Sub Category</label>
+              <!-- <div class="select-box">
+                 <label>
+                    <select class="form-control form-control-sm">
+                       <option value="aa" selected="selected">All Sub Category</option>
+                       <option value="aaa">Sub Category 1 </option>
+                    </select>
+                 </label>
+              </div> -->
+              <div class="select-box">
+                  <label>
+                     <select class="form-control form-control-sm" id="Subcategory" (change)="filter()" [(ngModel)]="filterObject.subCat">
+                         <option value="All"  >All Subcategory</option>
+                         <option *ngFor="let subcat of manufacturerProducts.subCategories" [value]="subcat._id">{{subcat.name}}</option>
+                     </select>
+                  </label>
+               </div>
+           </div>
+        </div>
+        <div class="col col-lg-3">
+           <div class="form-group">
+              <label for="exampleInputEmail1">Product Type
+              </label>
+              <!-- <div class="select-box">
+                 <label>
+                    <select class="form-control form-control-sm">
+                       <option value="aa" selected="selected">All Products</option>
+                       <option value="aaa">Product 1 </option>
+                    </select>
+                 </label>
+              </div> -->
+              <div class="select-box">
+                  <label>
+                     <select class="form-control form-control-sm" id="producTyTpe" (change)="filter()" [(ngModel)]="filterObject.prodType">
+                         <option value="All"  >All Product Type</option>
+                         <option *ngFor="let ptype of manufacturerProducts.productTypes" [value]="ptype._id">{{ptype.name}}</option>
+                     </select>
+                  </label>
+               </div>
+           </div>
+        </div>
+        <div class="col col-lg-3">
+           <div class="form-group">
+              <label for="exampleInputEmail1">Brand
+              </label>
+              <!-- <div class="select-box">
+                 <label>
+                    <select class="form-control form-control-sm">
+                       <option value="aa" selected="selected">All Brands</option>
+                       <option value="aaa">Brand 1 </option>
+                    </select>
+                 </label>
+              </div> -->
+              <div class="select-box">
+                  <label>
+                     <select class="form-control form-control-sm" id="brand" (change)="filter()" [(ngModel)]="filterObject.brand">
+                         <option value="All"  >All Brands</option>
+                         <option *ngFor="let brand of manufacturerProducts.brands" [value]="brand._id">{{brand.name}}</option>
+                     </select>
+                  </label>
+               </div>
+           </div>
+        </div>
+     </div>
+  </div>
+  <div class="table-responsive">
+     <table class="table table-striped text-left table-One border-one">
+        <thead>
+           <tr>
+              <th scope="col"><label class="checkbox checkbox-primary"> <input type="checkbox" [(ngModel)]="selectAllProducts"
+                 (change)="selectAll(selectAllProducts)"><span class="check-mark"></span> </label></th>
+              <th scope="col">Category</th>
+              <th scope="col">Sub Category</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Type</th>
+              <th scope="col" class="">UOM</th>
+              <th scope="col" class="">Brand</th>
+              <th scope="col" class="">Grad/Spec</th>
+           </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of manufacturerProductsBackUp.products; let i=index">
+              <td><label class="checkbox checkbox-primary"> 
+                <!-- <input type="checkbox"> -->
+                <input type="checkbox" [checked]="product.isChecked"  (change)="product.isChecked = !product.isChecked;" />
+                <span class="check-mark">
+                </span> </label>
+              </td>
+              <td>{{product.category.name}}</td>
+              <td>{{product.subCategory.name}}</td>
+              <td>{{product.name}}</td>
+              <td>{{product.type.name}}</td>
+              <td>{{product.uom}}</td>
+              <td>{{product.brand.name}}</td>
+              <td>{{product.brand.gradeOrSpec}}</td>
+           </tr>
+           
+        </tbody>
+     </table>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="container-fulid">
+     <div class=" my-3">
+        <div class="col text-center">
+           <button type="button" (click)="activeModal.close('Cross click')" class="btn btn-outline-primary">CLOSE</button>
+           <button type="button" class="btn btn-primary" (click)="CopyAdrZoneToProducts();">COPY</button>
+        </div>
+     </div>
+  </div>
+</div>

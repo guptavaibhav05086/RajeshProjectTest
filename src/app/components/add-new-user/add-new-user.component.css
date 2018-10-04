@@ -1,0 +1,9 @@
+.list-one {
+    margin: 0;
+    margin-top: 10px;
+    padding: 0;
+  }
+
+  .list-one li {
+    list-style: none;
+  }

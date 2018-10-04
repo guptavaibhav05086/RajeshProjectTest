@@ -1,0 +1,108 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px',position: 'absolute', height:'100vh'}"></ngx-loading>
+<div class="card-body content-card-body content-center-body" *ngIf="showEmptyForm">
+
+  <div class="block-content text-center">
+    <h3 class="yellow"> User List is Empty</h3>
+    <p>Click on Add New User button and onboard them with all the necessary permissions</p>
+    <button type="button" class="btn btn-outline-primary mt-3" (click)="addNewUser()">Add New User</button>
+  </div>
+
+</div>
+
+
+
+
+<!--- All User Form Starts here-->
+<div class="container-fulid container-body">
+    <div *ngIf="showAllUsers">
+        
+          <div class="row">
+            <div class="col-6 pl-4">
+              <h2>Manage Users &amp; Permissions </h2>
+            </div>
+            <div class="col-6 text-right pt-4 pr-5">
+              <button type="button" class="btn btn-outline-primary" (click)="addNewUser()">Add New User </button>
+            </div>
+         
+        </div>
+      
+        <div class="card-body content-card-body ">
+          <div class="form-one">
+            <div class="row justify-content-md-center mb-3">
+      
+              <div class="col col-lg-4 search-icon">
+                <label for="exampleInputEmail1">
+                </label>
+                <div class="input-group ">
+                  <!-- <input class="form-control border-right-0" placeholder="Search by User Name" [(ngModel)]="searchTerm"> -->
+                  <ng-template #rt let-r="result" let-t="term">             
+                    {{ r.firstName}} {{r.lastName}}
+                  </ng-template>
+              <input id="typeahead-template" placeholder="Search by User Name" type="text" class="form-control" [(ngModel)]="modelSearch"
+                [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="searchSelected($event)"/>
+                  <span *ngIf="modelSearch == null" class="input-group-addon bg-white border-left-0" (click)="searchByUserNm(modelSearch)">
+                    <i class="fa fa-search"></i>
+                  </span>
+                  <span *ngIf="modelSearch != null" class="input-group-addon bg-white border-left-0" (click)="clearSearch()">
+                      <i class="fa fa-close"></i>
+                    </span>
+                </div>
+                
+      
+              </div>
+            </div>
+          </div>
+      
+          <div class="table-body">
+            <div class="table-responsive">
+              <table class="table table-striped table-One">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">Email Id</th>
+                    <th scope="col">Role</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let admin of admins">
+                    <td>
+                      <div class="font-weight-bold">{{admin.firstName}} {{admin.lastName}}</div>
+                    </td>
+                    <td>
+                      <div class="color-grey-off">{{admin.mobileNumber}}</div>
+                    </td>
+                    <td>{{admin.emailId}}</td>
+                    <td>
+                      <div class="font-weight-bold">{{admin.role}}</div>
+                    </td>
+                    <td>
+                      <a (click)="onClickViewEdit(admin._id)">View/Edit</a>
+                    </td>
+                    <td>
+                      <!-- <div class="custom-slid-checkbox">
+                        <div class="toggle btn btn-default off" data-toggle="toggle" style="width: 132.25px; height: 32px;">
+                          <input type="checkbox" class="toggle-two">
+                          <div class="toggle-group">
+                            <label class="btn btn-primary active toggle-on">Active</label>
+                            <label class="btn btn-default  toggle-off">Inactive</label>
+                            <span class="toggle-handle btn btn-default"></span>
+                          </div>
+                        </div>
+                      </div> -->
+                      <ui-switch [(ngModel)]="admin.isActive" (change)="onActiveChange($event)" [disabled]="true"></ui-switch>
+                    </td>
+      
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+      
+          </div>
+        </div>
+      </div>
+</div>
+
+<!--- All Users Form emnds here-->

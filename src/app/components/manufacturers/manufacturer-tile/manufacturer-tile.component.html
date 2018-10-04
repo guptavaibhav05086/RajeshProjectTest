@@ -1,0 +1,129 @@
+<div>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px' }"></ngx-loading>
+
+  <div class="row table-filter border-shadow-one">
+    <div class="col">
+      <div class="upload-image mx-auto mt-4">
+        <div class="upload-image-content">
+          <img src={{manufacturer.logoUrl}}>
+        </div>
+      </div>
+    </div>
+    <div class="col ">
+      <label for="staticEmail" class="font-weight-bold color-black-off mb-0">Basic Details</label>
+      <div class="form-group row">
+        <label for="staticEmail" class="col-sm-5 col-form-label">Company Name:</label>
+        <div class="col-sm-7">
+          <input type="text" readonly="" class="form-control-plaintext " value={{manufacturer.companyName}}>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="staticEmail" class="col-sm-5 col-form-label">PAN Number :</label>
+        <div class="col-sm-7">
+          <input type="text" readonly="" class="form-control-plaintext " value={{manufacturer.panNumber}}>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="staticEmail" class="col-sm-5 col-form-label">GST :</label>
+        <div class="col-sm-7">
+          <input type="text" readonly="" class="form-control-plaintext " value={{manufacturer.gstIn}}>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="staticEmail" class="col-sm-5 col-form-label">Mobile Number :</label>
+        <div class="col-sm-7">
+          <input type="text" readonly="" class="form-control-plaintext " value="+91-{{manufacturer.mobileNumber}}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="staticEmail" class="col-sm-5 col-form-label">Landline :</label>
+        <div class="col-sm-7">
+          <input type="text" readonly="" class="form-control-plaintext " value={{manufacturer.landLineNumber}}>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="staticEmail" class="col-sm-5 col-form-label">Email id :</label>
+        <div class="col-sm-7">
+          <input type="text" readonly="" class="form-control-plaintext " value={{manufacturer.emailId}}>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+
+      <label for="staticEmail" class="font-weight-bold color-black-off  mb-0">Location Details</label>
+      <div class="form-group row">
+        <label for="staticEmail" class="col-sm-5 col-form-label">Address :</label>
+        <div class="col-sm-7">
+          <input type="text" readonly="" class="form-control-plaintext " value={{manufacturer.invoiceAddress.address.line1}} data-toggle="tooltip" title={{manufacturer.invoiceAddress.address.line1}}>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="staticEmail" class="col-sm-5 col-form-label">State :</label>
+        <div class="col-sm-7">
+          <input type="text" readonly="" class="form-control-plaintext " value={{manufacturer.invoiceAddress.address.stateObj.name}}>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="staticEmail" class="col-sm-5 col-form-label">City :</label>
+        <div class="col-sm-7">
+          <input type="text" readonly="" class="form-control-plaintext " value={{manufacturer.invoiceAddress.address.cityObj.name}}>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="staticEmail" class="col-sm-5 col-form-label">Pincode :</label>
+        <div class="col-sm-7">
+          <input type="text" readonly="" class="form-control-plaintext " value={{manufacturer.invoiceAddress.address.pincode}}>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="staticEmail" class="col-sm-5 col-form-label">Area/Location :</label>
+        <div class="col-sm-7">
+          <input type="text" readonly="" class="form-control-plaintext " value={{manufacturer.invoiceAddress.address.locationObj.name}}>
+        </div>
+      </div>
+
+    </div>
+    <div class="col">
+      <label for="staticEmail" class="font-weight-bold color-black-off  mb-0" *ngIf="false">Other Details </label>
+      <div class="form-group row" style="display:none">
+        <label for="staticEmail" class="col-sm-5 col-form-label">Credit Limit:</label>
+        <div class="col-sm-7" *ngIf='manufacturer.termsOfTrade'>
+          <input type="text" readonly="" class="form-control-plaintext " value={{manufacturer.termsOfTrade.creditLimit}}>
+        </div>
+        <div class="col-sm-7" *ngIf='manufacturer.termsOfTrade == undefined'>
+            <input type="text" readonly="" class="form-control-plaintext " value="">
+        </div>
+      </div>
+      <div class="form-group row" style="display:none">
+        <label for="staticEmail" class="col-sm-5 col-form-label">Credit Days:</label>
+        <div class="col-sm-7" *ngIf='manufacturer.termsOfTrade'>
+          <input type="text" readonly="" class="form-control-plaintext " value={{manufacturer.termsOfTrade.creditPeriod}}>
+        </div>
+        <div class="col-sm-7" *ngIf='manufacturer.termsOfTrade == undefined'>
+            <input type="text" readonly="" class="form-control-plaintext " value="">
+          </div>
+      </div>
+
+      <label for="staticEmail" class="font-weight-bold color-black-off mt-2  mb-0">Status </label>   
+                    <div class="form-group">
+                        <label for="staticEmail" class=" col-form-label" [ngClass]="(manufacturer.status == 'Rejected')? 'color-red' : 'color-green'">{{manufacturer.status}}</label>
+                        <div class="color-grey-off">{{manufacturer.rejectReason}}</div>
+                    </div>
+    </div>
+    <div class="col text-right">
+
+      <button type="button" class="btn btn-outline-success mb-2text-left mb-2 w-120" (click)='onApproveButtonClick()' [disabled]='manufacturer.status == "Approved" || !canApproveReject'>
+        <i class="fa font-22 fa-check-circle" aria-hidden="true"></i> Approve</button><br/>
+      <button type="button" class="btn btn-outline-danger mb-2 ml-0 text-left w-120" data-toggle="modal" data-target=".bd-example-modal-lg" (click)='onRejectButtonClick()' [disabled]='manufacturer.status == "Rejected" || !canApproveReject'>
+        <i class="fa font-22 fa-times-circle" aria-hidden="true"></i> Reject</button><br/>
+      <button type="button" class="btn btn-outline-dark ml-0 text-left w-120" (click)='onEditManufacturerButtonClick()' [disabled]='!canEdit'>
+        <span class="fa-stack fa-lg" aria-hidden="true">
+          <i class="fa fa-circle font-22"></i>
+          <i class="fa fa-pencil fa-stack-1x font-12 fa-inverse"></i>
+        </span> Edit</button>
+
+    </div>
+  </div>
+</div>
+
+<!-- <app-reason-modal [modalDisplay]="modalDisplay" [modalObj]="modalObj" (clickEvent)="updateManufacturer($event, modalObj.id)"></app-reason-modal> -->

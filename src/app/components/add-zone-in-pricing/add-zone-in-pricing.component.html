@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <h4 class="modal-title">Add Pricing Zone</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  
+   
+  <p class="text-center modal-p">Select a pricing zone from the below dropdown and add to the product details</p>
+  <div class="select-box box-modal">
+      <label>
+          <select class="form-control form-control-sm" [(ngModel)]="result.zoneId">	
+              <option *ngFor="let item of zoneList" [value]="item._id">{{item.name}} </option>
+              
+              
+              </select>
+              </label>
+
+  </div>
+
+   <div>
+
+   </div>
+   <!-- End Display Date Section -->
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary modal-add" (click)= "activeModal.close(result)">ADD</button>
+</div>

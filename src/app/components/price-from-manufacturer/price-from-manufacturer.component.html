@@ -1,0 +1,624 @@
+<div class="">
+
+        <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px' }"></ngx-loading>
+    <div class="container-fulid container-body">
+      <div class="pl-2">  <h2>Pricing from Manufacturers</h2></div>
+
+        <div class="card-body content-card-body">
+            <div class="form-one">
+                <div class="row justify-content-md-center">
+
+                    <div class="col col-lg-2">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Manufacturer
+                            </label>
+                            <div class="select-box">
+                                <label>
+                                    <select class="form-control form-control-sm" [(ngModel)]="filterObject.manuId" (change)="getManufacturerBasedItems()">
+                                        <option value="" *ngIf="displayProductDetails === true">Select Manufacturer</option>
+                                        <option value="All" *ngIf="displayProductDetails === false">All Manufacturers</option>
+                                        <option *ngFor="let manuItem of manufacturerList" [value]="manuItem._id">
+                                            {{manuItem.companyName}} 
+
+                                        </option>
+                                    </select>
+                                </label>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col col-lg-2">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Sub Category
+                            </label>
+                            <div class="select-box">
+                                <label>
+                                    <select class="form-control form-control-sm" 
+                                    [(ngModel)]="filterObject.subCat" (change)="filter()">
+                                    <option value="" *ngIf="displayProductDetails === true">Select Sub Category</option>
+                                        <option value="All" *ngIf="displayProductDetails === false">All Sub Category</option>
+                                        <option *ngFor="let subCat of subcategoriesList" [value]="subCat._id">
+                                                {{subCat.name}} 
+
+                                            </option>
+                                    </select>
+                                </label>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col col-lg-2">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Product Type
+                            </label>
+                            <div class="select-box">
+                                <label>
+                                    <select class="form-control form-control-sm" [(ngModel)]="filterObject.prodType" (change)="filter()">
+                                            <option value="" *ngIf="displayProductDetails === true">Select Product Type</option>
+                                        <option value="All" *ngIf="displayProductDetails === false">All Products</option>
+                                        <option *ngFor="let prodType of productType" [value]="prodType._id">
+                                                {{prodType.name}} 
+
+                                            </option>
+                                    </select>
+                                </label>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col col-lg-2">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Brand
+                            </label>
+                            <div class="select-box">
+                                <label>
+                                    <select class="form-control form-control-sm" [(ngModel)]="filterObject.brand" (change)="filter()">
+                                            <option value="" *ngIf="displayProductDetails === true">Select Brand</option>
+                                        <option value="All" *ngIf="displayProductDetails === false">All Brands</option>
+                                        <option *ngFor="let brand of brandList" [value]="brand._id">
+                                                {{brand.name}} 
+
+                                            </option>
+                                    </select>
+                                </label>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="font-weight-bold color-grey-off">
+                Total Active Products -
+                <span class="color-black-off">{{totalActiveProduct}}</span>
+            </div>
+            <div *ngIf="displayProductDetails === false">
+            <div class="table-body" *ngFor="let product of mappedProductList | slice:pageStart:pageEnd">
+                <div class="table-filter">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group row">
+                                <label for="staticEmail" class="col-sm-5 col-form-label pr-0">Product Name:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" readonly class="form-control-plaintext font-weight-bold" [(ngModel)]="product.name">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="staticEmail" class="col-sm-5 col-form-label pr-0">Category:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" readonly class="form-control-plaintext" [(ngModel)]="product.categoryName">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="staticEmail" class="col-sm-5 col-form-label pr-0">Product Type:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" readonly class="form-control-plaintext" [(ngModel)]="product.typeName">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="staticEmail" class="col-sm-5 col-form-label pr-0">Brand:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" readonly class="form-control-plaintext" [(ngModel)]="product.brandName">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="form-group row">
+                                <label for="staticEmail" class="col-sm-5 col-form-label pr-0">Sub Category:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" readonly class="form-control-plaintext" [(ngModel)]="product.subCategoryName">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="staticEmail" class="col-sm-5 col-form-label pr-0">Grade/Spec:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" readonly class="form-control-plaintext" [(ngModel)]="product.gradeOrSpec">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="staticEmail" class="col-sm-5 col-form-label pr-0">UOM:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" readonly class="form-control-plaintext" [(ngModel)]="product.uom">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="staticEmail" class="col-sm-5 col-form-label pr-0">Product Code:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" readonly class="form-control-plaintext" [(ngModel)]="product.code">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-auto">
+                            <div class="color-blue-off pb-2">GST</div>
+                            <div class="select-box">
+                                <label>
+                                    <select class="form-control form-control-sm" 
+                                    [(ngModel)]="product.prodGST" name="gstRate" (change)="copyGstRates(product._id)">
+                                        <option *ngFor="let rates of gstRates;let j=index" [value]="rates">{{rates}}% </option>
+
+                                    </select>
+                                </label>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-auto">
+                                <div class="row">
+                                        <label class="font-weight-bold color-black-off pb-1"><b>Rate Validity <span style="color:red">*</span></b>
+                                            <span class="font-weight-normal color-grey-off"> Current Date: <span style="color:red">*</span></span>
+                                        </label>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                        
+                                    <input class="form-control form-control-sm" type="date"  [min]="minRange" 
+                                    [(ngModel)]="product.validityStart" placeholder="" (change)="validate(product._id)"/>
+                                    <label for="">From Date</label><br/>
+                                    <input class="form-control-onborder" type="time"  [(ngModel)]="product.startTime"
+                                    placeholder="HH:MM:AM" value="HH:MM: AM"  (change)="validate(product._id)"/>
+                                    <label for="appt-time"><span class="font">[HH:MM:AM/PM]</span></label><br/>
+                                  
+                                </div>
+                                <div class="col-xs-2 py-2">-</div>
+                                <div class="col-xs-4">
+                                        
+                                    <input class="form-control form-control-sm" type="date" [min]="minRange" 
+                                   
+                                    [(ngModel)]="product.validityEnd" placeholder="" (change)="validate(product._id)"/> 
+                                    <label for="">To Date</label><br/>
+                                     <input class="form-control-onborder" type="time"  [(ngModel)]="product.endTime"
+                                    placeholder="" (change)="validate(product._id)"/>
+                                    <label for="appt-time"><span class="font">[HH:MM:AM/PM]</span></label><br/>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    <!-- </div>
+                    <div class="row my-3"> -->
+                        <div class="col-sm-auto">
+                            <div class="custom-slid-checkbox">
+                                <input type="checkbox" class="toggle-two" style="display:none">
+                            </div>
+                        </div>
+                        <div class="col-sm-auto">
+                            
+                            <button type="button" class="btn btn-outline-primary mb-3" (click)="addNewPrice(product._id)">Add New Pricing</button>
+                           <br/> <button type="button" class="btn btn-outline-primary" (click)="openEditValidatity(product._id)">Edit Pricing & Validity</button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="table-responsive" >
+                   
+        
+                            
+                                <table class="table table-striped table-One">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Pricing Zone</th>
+                                            <th scope="col">Min Order Qty</th>
+                                            <th scope="col">MRP <span style="color:red">*</span></th>
+                                            <th scope="col">Basic Price <span style="color:red">*</span></th>
+                                            <th scope="col">GST <span style="color:red">*</span></th>
+                                            <th scope="col" class="table-one-border-r"> Ex Factory Price</th>
+                                            <th scope="col" class="table-one-border-r"> Transportation</th>
+                                            <th scope="col" class="table-one-border-r"> Warehouse</th>
+                                            <th scope="col" class="table-one-border-r"> 3PL Cost</th>
+																						<th scope="col" class="table-one-border-r"> Insurance</th>
+																						<th scope="col" class="table-one-border-r"> Loading</th>
+																						<th scope="col" class="table-one-border-r"> Unloading</th>
+																						<th scope="col" class="table-one-border-r"> Packaging</th>
+																						<th scope="col" class="table-one-border-r"> Others</th>
+                                            <th scope="col" class="table-one-border-r"> mSupply Landing Price (&#8377;)</th>
+                                            <th scope="col" class="table-one-border-r" *ngIf="false"> Upload Pricing Sheet</th>
+                                            <th scope="col" class="table-one-border-r" *ngIf="false"> Discount</th>
+                                            <th scope="col">History</th>
+                                            <th scope="col">Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="product.manuFacturerPriceMapping !=null">
+                                        <tr *ngFor="let item of product.manuFacturerPriceMapping.zonePrices">
+                                            <td>{{item.pricingZone.name}}</td>
+                                            <td>
+                                                <input class="form-control form-control-sm" 
+                                                (keyup)="ValidationMRP(item.minimumOrderQuantity,product._id,item.pricingZone._id,'fixed')"
+                                                [(ngModel)]="item.minimumOrderQuantity"
+                                                    type="number" placeholder="">
+                                            </td>
+                                            <td>
+                                                <input class="form-control rupee-form form-control-sm" 
+                                                (keyup)="ValidationMRP(item.minimumRetailPrice,product._id,item.pricingZone._id,'fixed')"
+                                                [(ngModel)]="item.minimumRetailPrice"
+                                                    type="number" placeholder="">
+                                            </td>
+                                            <td>
+                                                <input class="form-control rupee-form form-control-sm"  
+                                                (keyup)="ValidationBasic(item.basicPrice,product._id,item.pricingZone._id,'fixed')"
+
+                                                [(ngModel)]="item.basicPrice"
+                                                    type="number" placeholder="" (change)="CalculateLandingPrice('Fixed','Ex',product._id,item.pricingZone._id)">
+                                            </td>
+                                            <td>
+                                                <div class="select-box">
+                                                    <label>
+                                                        <select class="form-control form-control-sm" [(ngModel)]="item.gst" name="gstRate" (change)="CalculateLandingPrice('Fixed','Ex',product._id,item.pricingZone._id)">
+                                                            <option *ngFor="let rates of gstRates;let j=index" [value]="rates">{{rates}}% </option>
+
+                                                        </select>
+                                                    </label>
+
+                                                </div>
+                                            </td>
+
+                                            <td class="table-one-border-r"> {{inrFormatter(item.exFactoryPrice)}}</td>
+                                            <td class="table-one-border-r">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <input class="form-control form-control-sm percentage-form" type="number"
+                                                                [(ngModel)]="item.transportationChargeInPercentage" [disabled]="item.disableZone"
+                                                                (keyup)="ValidationTransport(item.transportationChargeInPercentage,product._id,item.pricingZone._id,'percentage')"
+                                                                placeholder="%" (change)="CalculateLandingPrice('Percent','T',product._id,item.pricingZone._id)">
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm rupee-form" [(ngModel)]="item.transportationChargeFixed" [disabled]="item.disableZone"
+                                                            (keyup)="ValidationTransport(item.transportationChargeFixed,product._id,item.pricingZone._id,'fixed')"
+                                                             (change)="CalculateLandingPrice('Fixed','T',product._id,item.pricingZone._id)"
+                                                                type="number" placeholder="">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="align-middle text-right color-blue-off">GST</td>
+                                                        <td>
+                                                            <div class="select-box">
+                                                                <label>
+                                                                    <select class="form-control form-control-sm " 
+                                                                    [(ngModel)]="item.transportationGst" name="transportationGst" [disabled]="item.disableZone"
+                                                                    (change)="CalculateLandingPrice(item.CurrentSelectedT,'T',product._id,item.pricingZone._id)">
+                                                                        <option *ngFor="let rates of gstRates;let j=index" [value]="rates">{{rates}}% </option>
+
+                                                                    </select>
+                                                                </label>
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td class="table-one-border-r">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <input class="form-control form-control-sm percentage-form" type="number"
+                                                                [(ngModel)]="item.wareHouseChargeInPercentage" placeholder="%"
+                                                                (keyup)="ValidationWareHouse(item.wareHouseChargeInPercentage,product._id,item.pricingZone._id,'percentage')" [disabled]="item.disableZone"
+                                                                (change)="CalculateLandingPrice('Percent','W',product._id,item.pricingZone._id)">
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm rupee-form" type="number" 
+                                                            [(ngModel)]="item.wareHouseChargeFixed" placeholder="" [disabled]="item.disableZone"
+                                                            (keyup)="ValidationWareHouse(item.wareHouseChargeFixed,product._id,item.pricingZone._id,'fixed')"
+                                                            (change)="CalculateLandingPrice('Fixed','W',product._id,item.pricingZone._id)">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="align-middle text-right color-blue-off">GST</td>
+                                                        <td>
+                                                            <div class="select-box">
+                                                                <label>
+                                                                    <select class="form-control form-control-sm" [(ngModel)]="item.wareHouseGst" name="wareHouseGst" [disabled]="item.disableZone"
+                                                                     (change)="CalculateLandingPrice(item.CurrentSelectedW,'W',product._id,item.pricingZone._id)">
+                                                                        <option *ngFor="let rates of gstRates;let j=index" [value]="rates">{{rates}}% </option>
+
+                                                                    </select>
+                                                                </label>
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td class="table-one-border-r">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <input class="form-control form-control-sm percentage-form" type="number" 
+                                                            [(ngModel)]="item.threePlChargeInPercentage" placeholder="%" [disabled]="item.disableZone"
+                                                            (keyup)="ValidationThreePL(item.threePlChargeInPercentage,product._id,item.pricingZone._id,'percentage')"
+                                                            (change)="CalculateLandingPrice('Percent','3PL',product._id,item.pricingZone._id)">
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm rupee-form" type="number" 
+                                                            [(ngModel)]="item.threePlChargeFixed" placeholder="" [disabled]="item.disableZone"
+                                                            (keyup)="ValidationThreePL(item.threePlChargeFixed,product._id,item.pricingZone._id,'fixed')"
+                                                            (change)="CalculateLandingPrice('Fixed','3PL',product._id,item.pricingZone._id)">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="align-middle text-right color-blue-off">GST</td>
+                                                        <td>
+                                                            <div class="select-box">
+                                                                <label>
+                                                                    <select class="form-control form-control-sm" [(ngModel)]="item.threePlGst" name="threePlGst"  [disabled]="item.disableZone"
+                                                                    (change)="CalculateLandingPrice(item.CurrentSelectedP,'3PL',product._id,item.pricingZone._id)">
+                                                                        <option *ngFor="let rates of gstRates;let j=index" [value]="rates">{{rates}}% </option>
+
+                                                                    </select>
+                                                                </label>
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td class="table-one-border-r">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <input class="form-control form-control-sm percentage-form" type="number" 
+                                                            [(ngModel)]="item.insuranceChargeInPercentage" placeholder="%" [disabled]="item.disableZone"
+                                                            (keyup)="ValidationInsurance(item.insuranceChargeInPercentage,product._id,item.pricingZone._id,'percentage')"
+                                                                (change)="CalculateLandingPrice('Percent','I',product._id,item.pricingZone._id)">
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm rupee-form" type="number"
+                                                             [(ngModel)]="item.insuranceChargeFixed" placeholder=""  [disabled]="item.disableZone"
+                                                             (keyup)="ValidationInsurance(item.insuranceChargeFixed,product._id,item.pricingZone._id,'fixed')"
+                                                            (change)="CalculateLandingPrice('Fixed','I',product._id,item.pricingZone._id)">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="align-middle text-right color-blue-off">GST</td>
+                                                        <td>
+                                                            <div class="select-box">
+                                                                <label>
+                                                                    <select class="form-control form-control-sm" [(ngModel)]="item.insuranceGst" name="insuranceGst" [disabled]="item.disableZone"
+                                                                     (change)="CalculateLandingPrice(item.CurrentSelectedI,'I',product._id,item.pricingZone._id)">
+                                                                        <option *ngFor="let rates of gstRates;let j=index" [value]="rates">{{rates}}% </option>
+
+                                                                    </select>
+                                                                </label>
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+																						</td>
+																						<!-- New Fields Addition -->
+																						<td class="table-one-border-r">
+																							<table>
+																									<tr>
+																											<td>
+																													<input class="form-control form-control-sm percentage-form" type="number" 
+																													[(ngModel)]="item.loadingChargeInPercentage" placeholder="%" [disabled]="item.disableZone"
+																													(keyup)="ValidationInsurance(item.loadingChargeInPercentage,product._id,item.pricingZone._id,'percentage')"
+																															(change)="CalculateLandingPrice('Percent','L',product._id,item.pricingZone._id)">
+																											</td>
+																											<td>
+																													<input class="form-control form-control-sm rupee-form" type="number"
+																													 [(ngModel)]="item.loadingChargeFixed" placeholder=""  [disabled]="item.disableZone"
+																													 (keyup)="ValidationInsurance(item.loadingChargeFixed,product._id,item.pricingZone._id,'fixed')"
+																													(change)="CalculateLandingPrice('Fixed','L',product._id,item.pricingZone._id)">
+																											</td>
+																									</tr>
+																									<tr>
+																											<td class="align-middle text-right color-blue-off">GST</td>
+																											<td>
+																													<div class="select-box">
+																															<label>
+																																	<select class="form-control form-control-sm" [(ngModel)]="item.loadingChargeGst" name="loadinggst" [disabled]="item.disableZone"
+																																	 (change)="CalculateLandingPrice(item.CurrentSelectedL,'L',product._id,item.pricingZone._id)">
+																																			<option *ngFor="let rates of gstRates;let j=index" [value]="rates">{{rates}}% </option>
+
+																																	</select>
+																															</label>
+
+																													</div>
+																											</td>
+																									</tr>
+																							</table>
+																					</td>
+																					<td class="table-one-border-r">
+																						<table>
+																								<tr>
+																										<td>
+																												<input class="form-control form-control-sm percentage-form" type="number" 
+																												[(ngModel)]="item.unloadingChargeInPercentage" placeholder="%" [disabled]="item.disableZone"
+																												(keyup)="ValidationInsurance(item.unloadingChargeInPercentage,product._id,item.pricingZone._id,'percentage')"
+																														(change)="CalculateLandingPrice('Percent','U',product._id,item.pricingZone._id)">
+																										</td>
+																										<td>
+																												<input class="form-control form-control-sm rupee-form" type="number"
+																												 [(ngModel)]="item.unloadingChargeFixed" placeholder=""  [disabled]="item.disableZone"
+																												 (keyup)="ValidationInsurance(item.unloadingChargeFixed,product._id,item.pricingZone._id,'fixed')"
+																												(change)="CalculateLandingPrice('Fixed','U',product._id,item.pricingZone._id)">
+																										</td>
+																								</tr>
+																								<tr>
+																										<td class="align-middle text-right color-blue-off">GST</td>
+																										<td>
+																												<div class="select-box">
+																														<label>
+																																<select class="form-control form-control-sm" [(ngModel)]="item.unloadingChargeGst" name="loadinggst" [disabled]="item.disableZone"
+																																 (change)="CalculateLandingPrice(item.CurrentSelectedU,'U',product._id,item.pricingZone._id)">
+																																		<option *ngFor="let rates of gstRates;let j=index" [value]="rates">{{rates}}% </option>
+
+																																</select>
+																														</label>
+
+																												</div>
+																										</td>
+																								</tr>
+																						</table>
+																				</td>
+																			
+																			<td class="table-one-border-r">
+																				<table>
+																						<tr>
+																								<td>
+																										<input class="form-control form-control-sm percentage-form" type="number" 
+																										[(ngModel)]="item.packagingChargeInPercentage" placeholder="%" [disabled]="item.disableZone"
+																										(keyup)="ValidationInsurance(item.packagingChargeInPercentage,product._id,item.pricingZone._id,'percentage')"
+																												(change)="CalculateLandingPrice('Percent','PC',product._id,item.pricingZone._id)">
+																								</td>
+																								<td>
+																										<input class="form-control form-control-sm rupee-form" type="number"
+																										 [(ngModel)]="item.packagingChargeFixed" placeholder=""  [disabled]="item.disableZone"
+																										 (keyup)="ValidationInsurance(item.packagingChargeFixed,product._id,item.pricingZone._id,'fixed')"
+																										(change)="CalculateLandingPrice('Fixed','PC',product._id,item.pricingZone._id)">
+																								</td>
+																						</tr>
+																						<tr>
+																								<td class="align-middle text-right color-blue-off">GST</td>
+																								<td>
+																										<div class="select-box">
+																												<label>
+																														<select class="form-control form-control-sm" [(ngModel)]="item.packagingChargeGst" name="packagingChargeGst" [disabled]="item.disableZone"
+																														 (change)="CalculateLandingPrice(item.CurrentSelectedPC,'PC',product._id,item.pricingZone._id)">
+																																<option *ngFor="let rates of gstRates;let j=index" [value]="rates">{{rates}}% </option>
+
+																														</select>
+																												</label>
+
+																										</div>
+																								</td>
+																						</tr>
+																				</table>
+																		</td>
+																		<td class="table-one-border-r">
+																			<table>
+																					<tr>
+																							<td>
+																									<input class="form-control form-control-sm percentage-form" type="number" 
+																									[(ngModel)]="item.othersChargeInPercentage" placeholder="%" [disabled]="item.disableZone"
+																									(keyup)="ValidationInsurance(item.othersChargeInPercentage,product._id,item.pricingZone._id,'percentage')"
+																											(change)="CalculateLandingPrice('Percent','O',product._id,item.pricingZone._id)">
+																							</td>
+																							<td>
+																									<input class="form-control form-control-sm rupee-form" type="number"
+																									 [(ngModel)]="item.othersChargeFixed" placeholder=""  [disabled]="item.disableZone"
+																									 (keyup)="ValidationInsurance(item.othersChargeFixed,product._id,item.pricingZone._id,'fixed')"
+																									(change)="CalculateLandingPrice('Fixed','O',product._id,item.pricingZone._id)">
+																							</td>
+																					</tr>
+																					<tr>
+																							<td class="align-middle text-right color-blue-off">GST</td>
+																							<td>
+																									<div class="select-box">
+																											<label>
+																													<select class="form-control form-control-sm" [(ngModel)]="item.othersChargeGst" name="othersChargeGst" [disabled]="item.disableZone"
+																													 (change)="CalculateLandingPrice(item.CurrentSelectedO,'O',product._id,item.pricingZone._id)">
+																															<option *ngFor="let rates of gstRates;let j=index" [value]="rates">{{rates}}% </option>
+
+																													</select>
+																											</label>
+
+																									</div>
+																							</td>
+																					</tr>
+																			</table>
+																	</td>
+                                            <td class="table-one-border-r">   {{inrFormatter(item.landingPrice)}} 
+                                                <!-- E: {{item.exFactoryPrice | number:'1.0-2'
+                                        }} T:  {{ item.transportationTotal | number:'1.0-2'}} W: {{item.wareHouseTotal | number:'1.0-2' }} P: {{item.threePLTotal | number:'1.0-2'
+																				}} I: {{item.insuranceTotal | number:'1.0-2'}} 
+																				L: {{item.loadingChargeTotal | number:'1.0-2' }}
+																				U: {{item.unloadingChargeTotal | number:'1.0-2' }}
+																				o: {{item.othersChargeTotal | number:'1.0-2' }}
+																				P: {{item.packagingChargeTotal | number:'1.0-2' }} -->
+                                            </td>
+                                           
+                                            <td class="table-one-border-r text-center" *ngIf="false">
+                                                <a href="#">Upload</a>
+                                                <div class="file-attach">
+                                                    filename.pdf
+                                                    <span class="fa fa-close"></span>
+                                                </div>
+                                            </td>
+                                            <td class="table-one-border-r" *ngIf="false">
+                                                <a href="#">Bulk Purchase</a>
+                                            </td>
+                                            <td>
+                                                <a (click)="openPriceHistory(product._id,item.pricingZone._id, product.manuFacturerPriceMapping._id,item.pricingZone.name)">View</a>
+                                            </td>
+
+                                            <td>
+                                                  
+                                                <button  class="linkbutton" style="background:none!important;
+                                                border:none; 
+                                                padding:0!important;
+                                               
+                                               /*optional*/
+                                               font-family:arial,sans-serif; /*input has OS specific font-family*/
+                                                color:#069;
+                                                text-decoration:underline;
+                                                cursor:pointer;"
+                                                [disabled]="!item.isAddedNow" (click)="removeZone(product._id,item.pricingZone._id)">  <i class="fa fa-trash" aria-hidden="true"></i></button>
+                                            </td>
+                                        </tr>
+
+
+
+
+                                    </tbody>
+                                </table>
+                            
+                        
+                    
+                </div>
+                <div class="container-fulid px-2">
+                    <div class="row my-3">
+                        <div class="col text-right">
+                            <button type="button" class="btn btn-outline-primary pull-left" 
+                            [disabled]="product.disbaleAddPrice" (click)="openAddZone(product._id)">Add Pricing Zone</button>
+                            <button type="button" class="btn btn-outline-primary" (click)="openCopyPrice(product._id)">Copy Rates to Other Products</button>
+                            <button type="button" class="btn btn-primary" [disabled]="product.IsSaveDisable" 
+                            (click)="SaveProduct(product._id)">SAVE & UPDATE</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="displayProductDetails === true">
+            <table class="table table-striped table-One">
+                                          
+                <tbody>
+                      <tr>
+                              <td class="align-middle color-grey-off" colspan="9" style="height:200px;">No products to display. Please select a manufacturer to get the list of products.</td>
+                      </tr>
+
+                  </tbody>
+              </table>
+        </div>
+<div *ngIf="displayProductDetails === false">
+    <ngb-pagination class="d-flex justify-content-center" [pageSize]="pageSize" [collectionSize]="mappedProductList.length" [(page)]="pageSelected" (pageChange)="onPageChange()"></ngb-pagination>
+
+</div>
+               </div>
+    </div>
+</div>

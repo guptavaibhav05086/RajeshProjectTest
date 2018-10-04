@@ -1,0 +1,174 @@
+
+  <h1>Pricing Zone </h1>
+  <table class="table" style="border: 1px solid grey">
+    <thead>
+      <tr>
+        <th>Product Code</th>
+        <th>Product Category</th>
+        <th>Sub Category</th>
+        <th>Product Name</th>
+        <th>Product Type</th>
+        <th>UOM</th>
+        <th>Brand</th>
+        <th>Grad/Spec</th>
+        <th>HSN Code</th>
+        <th>Images</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let prdct of productDetailsList; let i=index">
+        <td>
+          <input type="text" [(ngModel)]="prdct.code" />
+        </td>
+        <td>
+          <select required class="form-control" id="productCategory" [(ngModel)]="prdct.productCategory" name="productCategory" #productCategory="ngModel"
+            aria-placeholder="select">
+            <option *ngFor="let prdctCategory of prdct.productCategoryList" [value]="prdctCategory.Id">{{prdctCategory.Name}}</option>
+          </select>
+        </td>
+        <td>
+          <select required class="form-control" id="subCategory" [(ngModel)]="prdct.subCategory" name="subCategory" #subCategory="ngModel"
+            aria-placeholder="select">
+            <option *ngFor="let subCategry of prdct.subCategoryList" [value]="subCategry.Id">{{subCategry.Name}}</option>
+          </select>
+        </td>
+        <td>
+          <input type="text" [(ngModel)]="prdct.name" />
+          {{prdct.productDetailId}}{{i}}  
+        </td>
+        <td>
+          <select required class="form-control" id="productType{{i}}" *ngIf="isOtherTypeSelected != 'others'+i" [(ngModel)]=" prdct.selectedProductType" name="productType" #productType="ngModel"
+            aria-placeholder="select" (change)="otherProductTypeSlctd(i)">
+            <option *ngFor="let prdctType of prdct.productTypeList" value="{{prdctType.Type}}">{{prdctType.Id}}</option>
+            
+          </select>
+          <div *ngIf="isOtherTypeSelected == 'others'+i">
+            <input type="text" [(ngModel)]="newProductType" />
+            <button type="button" class="close" aria-label="Close" (click)="otherProductTypeSlctd(i)">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <span (click)="addNewProductType()"><i class="fa fa-check"></i></span>>
+          </div>
+        </td>
+        <td>
+          <input type="text" [(ngModel)]="prdct.uom" />
+        </td>
+        <td>
+          <select required class="form-control" id="brandName" *ngIf="!isOtherBrandSelected" [(ngModel)]="prdct.brand" name="brandName"
+            #brandName="ngModel" aria-placeholder="select" (change)="otherBrandSelected()">
+            <option *ngFor="let brand of prdct.brandList" value="brand.Id">{{brand.Name}}</option>
+            <option value="null">others</option>
+          </select>
+          <div *ngIf="isOtherBrandSelected">
+            <input type="text" [(ngModel)]="newBrand" />
+            <button type="button" class="close" aria-label="Close" (click)="otherBrandSelected()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <span (click)="addNewBrand()"><i class="fa fa-check"></i></span>>
+          </div>
+        </td>
+        <td>
+          <input type="text" [(ngModel)]="prdct.gradeOrSpec" />
+        </td>
+        <td>
+          <input type="text" [(ngModel)]="prdct.hsnCode" />
+        </td>
+        <td>
+          <label class="btn btn-default">
+            Browse
+            <!-- <input type="file" hidden [(ngModel)]="prdct.imageUrl"> -->
+          </label>
+        </td>
+        <td>
+          <a>
+            <button type="button" class="btn btn-primary" (click)="addProductDetails(prdct)" data-toggle="modal" data-target="#myModal">Product Details</button>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <input type="button" (click)="AddNewProduct()" value="Add New Product" />
+  <input type="button" (click)="SaveProductDetails()" value="Save" />
+
+
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" *ngIf="prdct != undefined">
+        <div style="border: 1px Solid grey">
+          <div>Product Description</div>
+          <textarea placeholder="Enter Product Description" [(ngModel)]="prdct.description"></textarea>
+
+        </div>
+        <br/>
+        <div style="border: 1px Solid grey">
+          <div>Area Of Application</div>
+          <textarea placeholder="Enter Product Description" [(ngModel)]="prdct.areasOfApplication"></textarea>
+
+        </div>
+        <br/>
+        <div style="border: 1px Solid grey">
+          <div>Product Dimension</div>
+          <table>
+            <tr>
+              <td>Product Name</td>
+              <td>{{prdct.name}}</td>
+              <td>Brand</td>
+              <td>{{prdct.brand}}</td>
+              <td>Grade/spec</td>
+              <td>{{prdct.gradeOrSpec}}</td>
+            </tr>
+          </table>
+          <diV>
+            <label>UOM:</label>
+            <label>{{prdct.uom}}</label>
+          </diV>
+          <div>
+            <table>
+              <tr>
+                <td>
+                  <label>Length(in cm)</label>
+                </td>
+                <td>
+                  <label>Breadth(in cm)</label>
+                </td>
+                <td>
+                  <label>Height(in cm)</label>
+                </td>
+                <td>
+                  <label>Weight(in Kg)</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="number" [(ngModel)]="prdct.dimension.length" [pattern]="dimesionPattern" required />
+                </td>
+                <td>
+                  <input type="number" [(ngModel)]="prdct.dimension.breadth" [pattern]="dimesionPattern" required/>
+                </td>
+                <td>
+                  <input type="number" [(ngModel)]="prdct.dimension.height" [pattern]="dimesionPattern" required/>
+                </td>
+                <td>
+                  <input type="number" [(ngModel)]="prdct.dimension.weight" [pattern]="dimesionPattern" required/>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,188 @@
+<div class="modal-header">
+    <h4 class="modal-title">Edit Pricing & Validity Dates</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">✕</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="form-one">
+        <div class="row justify-content-md-center">
+                                              
+                <div class="col col-auto pt-1 px-0">
+                        <label class="radio  form-check-inline">
+                                <input type="radio" name="gender" [value]="radioBoxSelection[0].id" [checked]="radioBoxSelection[0].id == selectedOption.id" (change)="radioButtonSelection(radioBoxSelection[0])">
+                                <span class="check-mark"></span><strong> Current month</strong>
+                            </label>
+                            </div>
+                            <div class="col col-auto pt-1 pr-0">
+                            <label class="radio  form-check-inline">
+                                    <input type="radio" name="gender" [value]="radioBoxSelection[1].id" [checked]="radioBoxSelection[1].id == selectedOption.id" style="margin-left:5%" (change)="radioButtonSelection(radioBoxSelection[1])">
+                                <span class="check-mark"></span> Next month
+                            </label>
+                            </div>
+                            <div class="col col-auto pt-1 pr-0">
+                            <label class="radio  form-check-inline">
+                                    <input type="radio" name="gender" [value]="radioBoxSelection[2].id" [checked]="radioBoxSelection[2].id == selectedOption.id" style="margin-left:5%" (change)="radioButtonSelection(radioBoxSelection[2])">
+                                    <span class="check-mark"></span> Date Range
+                                </label>
+                            
+                </div>
+                <div class="col col-lg-2 pr-0">
+                        <div class="form-group">
+                           <span style="color:orange;text-align: center">From </span>     
+                           <input class="form-control form-control-sm" [(ngModel)]="dateRange.fromDate" type="date" placeholder="From" 
+                           [disabled]="disbaleDate" (change)="rangeSelection('fromDate')" style="width:130px"/>
+                            </div>
+                            
+                </div>
+                <div class="col col-lg-2">
+                        <div class="form-group">
+                            <span style="color:orange;text-align: center">To </span>    
+                            <input class="form-control form-control-sm" [(ngModel)]="dateRange.toDate" type="date" placeholder="To"
+                             [disabled]="disableToDate" (change)="rangeSelection('toDate')" style="width:130px;margin-left:10px"/>
+                                    
+                            </div>                           
+                </div>
+          
+              </div>
+            </div>
+
+     
+     <!-- Product Section -->
+     <div class="table-body" *ngFor="let product of ProductList;let i=index">
+        <div class="table-filter">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-5 col-form-label">Product Name:</label>
+                        <div class="col-sm-7">
+                            <input type="text" readonly class="form-control-plaintext font-weight-bold" 
+                            [(ngModel)]="product.name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-5 col-form-label">Category:</label>
+                        <div class="col-sm-7">
+                            <input type="text" readonly class="form-control-plaintext" 
+                            [(ngModel)]="product.categoryName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-5 col-form-label">Product Type:</label>
+                        <div class="col-sm-7">
+                            <input type="text" readonly class="form-control-plaintext" 
+                            [(ngModel)]="product.typeName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-5 col-form-label">Brand:</label>
+                        <div class="col-sm-7">
+                            <input type="text" readonly class="form-control-plaintext"   
+                            [(ngModel)]="product.brandName">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col">
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-5 col-form-label">Sub Category:</label>
+                        <div class="col-sm-7">
+                            <input type="text" readonly class="form-control-plaintext"  
+                            [(ngModel)]="product.subCategoryName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-5 col-form-label">Grade/Spec:</label>
+                        <div class="col-sm-7">
+                            <input type="text" readonly class="form-control-plaintext" 
+                            [(ngModel)]="product.gradeOrSpec">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-5 col-form-label">UOM:</label>
+                        <div class="col-sm-7">
+                            <input type="text" readonly class="form-control-plaintext" 
+                            [(ngModel)]="product.uom">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-5 col-form-label">Product Code:</label>
+                        <div class="col-sm-7">
+                            <input type="text" readonly class="form-control-plaintext" 
+                            [(ngModel)]="product.code">
+                        </div>
+                    </div>
+
+                </div>
+               
+               
+            </div>
+            <div class="row my-3">
+                <!-- <div class="col">
+                    <div class="custom-slid-checkbox">
+                            <input type="checkbox" class="toggle-two">
+                    </div>
+                </div> -->
+               
+
+            </div>
+        </div>
+        <div class="table-responsive" >
+                               
+                    
+                                        
+            <table class="table table-striped table-One">
+                <thead>
+                    <tr>
+                        <th scope="col">Rate Validaty</th>
+                        <th scope="col">Status </th>
+                        <th scope="col">Updated By</th>
+                        <th scope="col"></th>
+                        
+                    </tr>
+                </thead>
+                <tbody >
+                    <tr *ngFor="let rate of productPricingZone | slice:pageStart:pageEnd">
+                        <td class="table-one-border-r">{{rate.validityStartTimeDisplay}} to {{rate.validityEndTimeDisplay}}</td>
+                        
+                       
+                       
+
+                        
+                        <td class="table-one-border-r text-center" [ngClass]="getStatusClass(rate.Status)">
+                            {{rate.Status}}
+                        </td>
+                        <td class="table-one-border-r" *ngIf="rate.updatedBy != undefined">
+                            {{rate.updatedBy}}
+                        </td>
+                        <td class="table-one-border-r" *ngIf="rate.updatedBy === undefined">
+                            {{rate.createdBy}}
+                        </td>
+                        <td>
+                           <button type="submit" class="btn btn-outline-primary" (click)="activeModal.close(rate)">Update</button>
+                           
+                        </td>
+                    </tr>
+
+
+
+
+                </tbody>
+            </table>
+        
+            <ngb-pagination class="d-flex justify-content-center" [pageSize]="pageSize" [collectionSize]="productPricingZone.length" [(page)]="pageSelected" (pageChange)="onPageChange()"></ngb-pagination>
+
+</div>
+     </div>
+     <!-- End Product Section -->
+
+     <!-- Display Date Section -->
+
+     <div>
+
+     </div>
+     <!-- End Display Date Section -->
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  </div>

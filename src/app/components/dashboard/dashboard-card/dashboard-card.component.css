@@ -1,0 +1,26 @@
+.st-hw{
+    height: 250px;
+    width: 250px;
+    color:#FFFFFF;
+    box-shadow:0px 2px 10px #000000 ;
+   -moz-box-shadow:0px 2px 10px #000000 ;
+   -webkit-box-shadow: 0px 2px 10px #000000 ;
+    padding:5px;
+    margin: 15px 0px 15px 0px;
+}
+
+.text-center{
+    text-align: center;
+    size:16px;
+    font-style: Arial Bold;
+    color: #54688D;
+    height: 39px;
+}
+.st-col{
+    color:#00B1FF;
+    font-size: 20px;
+    text-decoration: underline;
+    cursor: pointer;
+    position: relative;
+    top:20%;
+}

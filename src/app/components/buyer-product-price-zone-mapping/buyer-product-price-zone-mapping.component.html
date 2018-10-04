@@ -1,0 +1,80 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px' }"></ngx-loading>
+<div class="modal-header">
+    <h5 class="modal-title text-center" id="NewPricingTitle">Link Pricing Zone to Delivery Location</h5>
+    <button type="button" class="close"  aria-label="Close" (click)="activeModal.close('Cross click')">
+    <span aria-hidden="true">&#10005;</span>
+    </button>
+ </div>
+ <div class="modal-body">
+    <div class="table-responsive">
+       <table class="table table-striped text-left table-One border-one">
+          <thead>
+             <tr>
+                <th scope="col">Category</th>
+                <th scope="col">Sub Category</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Type</th>
+                <th scope="col" class="">UOM</th>
+                <th scope="col" class="">Brand</th>
+                <th scope="col" class="">Grad/Spec</th>
+             </tr>
+          </thead>
+          <tbody>
+             <tr>
+                    <td>  {{product.category.name}}</td>
+                    <td>{{product.subCategory.name}}</td>
+                    <td> {{product.name}}</td>
+                    <td>  {{product.type.name}}</td>
+                    <td>  {{product.uom}}</td>
+                    <td>   {{product.brand.name}}</td>
+                
+                    <td>{{product.gradeOrSpec}}</td>
+             </tr>
+          </tbody>
+       </table>
+    </div>
+    <div class="table-responsive mt-4">
+       <table class="table table-striped table-One border-one">
+          <thead>
+             <tr>
+                <th scope="col">Delivery Location</th>
+                <th scope="col">Pricing Zone</th>
+             </tr>
+          </thead>
+          <tbody>
+             <tr *ngFor="let adr of DeliveryAddress; let i=index">
+                <td class="align-middle">
+                        {{adr.address.locationObj.name}}
+                       <!-- {{adr.address.line1 + ", " + adr.address.line2 + ", " + adr.address.cityObj.name +  ", " + adr.address.stateObj.name }} -->
+                </td>
+                <td class="align-middle">
+                   <div class="select-box" style="width:50%;margin-left: 20%">
+                        <label>
+                                <select class="form-control form-control-sm" id="priceZone{{i}}" (change)="MapPrizeZoneToDLAddress(i,adr.mappedZoneId)" [(ngModel)]="adr.mappedZoneId">
+                                        <option value="" disabled selected>Select  Pricing Zone</option>
+                                        <option *ngFor="let pz of pricingZones" [value]="pz._id">{{pz.name}}</option>
+                                    </select>
+                           <!-- <select class="form-control form-control-sm" id="priceZone{{i}}" (change)="MapPrizeZoneToDLAddress(i,selectedPriceZone[i])" [(ngModel)]="selectedPriceZone[i]">
+                               <option value="" disabled selected>select a priceZone</option>
+                               <option *ngFor="let pz of pricingZones" [value]="pz._id">{{pz.name}}</option>
+                           </select> -->
+                        </label>
+                     </div> 
+                </td>
+             </tr>
+             
+            
+          </tbody>
+       </table>
+    </div>
+ </div>
+ <div class="modal-footer">
+    <div class="container-fulid">
+       <div class=" my-3">
+          <div class="col text-center">
+             <button type="button" (click)="BuyerProductCopyPriceZone();activeModal.close('Cross click')" class="btn btn-outline-primary" [disabled]="disableCopy">Copy To Other Products</button>
+             <button type="button" (click)="LinkPrizeZoneToDLAddressClick();activeModal.close(addressZoneMapping)" class="btn btn-primary" [disabled]="disableLink">Link</button>
+          </div>
+       </div>
+    </div>
+ </div>

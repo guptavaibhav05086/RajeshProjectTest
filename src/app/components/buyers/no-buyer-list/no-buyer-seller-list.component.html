@@ -1,0 +1,9 @@
+<div class="card-body content-card-body content-center-body">
+
+    <div class="block-content text-center">
+        <h3 class="yellow"> {{name}} List is empty</h3>
+        <p>Click on Add New {{name}} Button and onboard them with all the necessary details</p>
+        <button type="button" class="btn btn-outline-primary mt-3" (click)='onNewButtonClick()' [disabled]="!canEdit">Add New {{name}}</button>
+    </div>
+
+</div>

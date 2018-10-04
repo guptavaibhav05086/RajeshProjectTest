@@ -1,0 +1,78 @@
+<div class="app-sidebar hight-one sidebar-slide-left">
+    <div class="text-right">
+        <button type="button" class="btn btn-sidebar" data-dismiss="sidebar">
+            <span class="x"></span>
+        </button>
+    </div>
+
+    <div id="sidebar" class="sidebar-nav">
+        <div *ngFor="let nav of navModels; index as i" class="sidebar-nav-group">
+            <a routerLink={{nav.Route}} class="nav-link "  [ngClass]="{'sidebar-nav-link active': nav.IsActive}" *ngIf='!nav.childs'>
+                <span class="nav-link-text">{{nav.Title}}</span>
+            </a>
+            <a href="#device-controls{{i}}" attr.aria-expanded="{{nav.IsActive}}" class="sidebar-nav-link" data-toggle="collapse"   *ngIf='nav.childs'>
+                <span class="nav-link-text">{{nav.Title}} </span>
+            </a>
+            <div id="device-controls{{i}}" class="sidebar-nav-group collapse" [ngClass]="{'show': nav.IsActive}" data-parent="#sidebar" *ngIf='nav.childs'>
+                <a *ngFor="let child of nav.childs" routerLink={{child.Route}} class="sidebar-nav-link" [ngClass]="{'active': child.IsActive}"
+                    >
+                    <span class="nav-link-text">{{child.Title}}</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- <div class="sidebar-nav-group">
+          <a routerLink="/" class="nav-link">
+              <span class="nav-link-text">Dashboard</span>
+          </a>
+      </div>
+      <div class="sidebar-nav-group">
+        <a routerLink="manufacturers" class="nav-link">
+              <span class="nav-link-text">Manufacturers</span>
+          </a>
+      </div>
+      <div class="sidebar-nav-group ">
+        <a routerLink="buyers" class="nav-link">
+              <span class="nav-link-text">Buyers</span>
+          </a>
+      </div>
+      <div class="sidebar-nav-group">
+        <a routerLink="pricing-zone" class="nav-link sidebar-nav-link active">
+              <span class="nav-link-text">Pricing Zone</span>
+          </a>
+      </div>
+    <div class="sidebar-nav-group">
+        <a href="#device-controls" class="sidebar-nav-link" data-toggle="collapse">
+            <span class="nav-link-text">Pricing </span>
+        </a>
+        <div id="device-controls" class="sidebar-nav-group  collapse show" data-parent="#sidebar">
+            <a routerLink="pricing-to-msupply" class="sidebar-nav-link">
+                <span class="nav-link-text">From Manufacturers</span>
+            </a>
+            <a routerLink="msupply-pricing" class="sidebar-nav-link active">
+                <span class="nav-link-text">To Buyers</span>
+            </a>
+        </div>
+    </div>
+      <div class="sidebar-nav-group">
+          <a routerLink ="/orders" class="nav-link">
+              <span class="nav-link-text">Buyer's PO</span>
+          </a>
+      </div>
+      <div class="sidebar-nav-group">
+          <a href="#content" class="nav-link">
+              <span class="nav-link-text">Reports</span>
+          </a>
+      </div>
+      <div class="sidebar-nav-group">
+            <a routerLink="/user" class="nav-link ">
+                <span class="nav-link-text">Manage User</span>
+            </a>
+        </div>
+      <div class="sidebar-nav-group">
+          <a href="#content" class="nav-link">
+              <span class="nav-link-text">Setting</span>
+          </a>
+      </div> -->
+    </div>
+</div>

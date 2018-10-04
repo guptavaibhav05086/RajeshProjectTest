@@ -1,0 +1,133 @@
+<div>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px' }"></ngx-loading>
+
+  <div class="container-fulid container-body">
+      <div class="col-12"><h2>Pricing Zone
+
+    </h2>
+      </div>
+    <div class="card-body content-card-body " *ngIf='manufacturerWithCategoriesResponse && manufacturerWithCategoriesResponse.data'>
+      <!--Filters -->
+      <div class="form-one">
+        <div class="row justify-content-md-center">
+
+          <div class="col col-lg-2">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Manufacturer
+              </label>
+              <div class="select-box">
+                <label>
+                  <select class="form-control form-control-sm" (change)="changeManufacturer($event.target.value)">
+                    <option [value]="nullVar">All Manufacturer</option>
+                    <option *ngFor="let manufacturer of manufacturerWithCategoriesResponse.data.manufacturers" [value]="manufacturer._id">{{manufacturer.companyName}}</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col col-lg-2">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Product Category </label>
+              <div class="select-box">
+                <label>
+                  <select class="form-control form-control-sm" (change)="changeCategory($event.target.value)">
+                    <option [value]="nullVar">All Categories</option>
+                    <option *ngFor="let category of manufacturerWithCategoriesResponse.data.categories" [value]="category._id">{{category.name}}</option>
+                  </select>
+                </label>
+
+              </div>
+            </div>
+
+          </div>
+          <div class="col col-lg-2">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Product Sub Category </label>
+              <div class="select-box">
+                <label>
+                  <select class="form-control form-control-sm" (change)="changeSubCategory($event.target.value)">
+                    <option [value]="nullVar">All SubCategories</option>
+                    <option *ngFor="let subCategory of manufacturerWithCategoriesResponse.data.subCategories" [value]="subCategory._id">{{subCategory.name}}</option>
+                  </select>
+                </label>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Zones-->
+      <div class="font-weight-bold color-grey-off" *ngIf='false'>
+        Total Products -
+        <span class="color-black-off">{{displayPricingZones.length}}</span>
+      </div>
+      <div class="table-body " *ngIf='displayPricingZones'>
+        <div class="table-responsive">
+          <table class="table table-striped mb-0 table-One">
+            <thead>
+              <tr>
+                <th scope="col" width="33.33%">Pricing Zone</th>
+                <th scope="col" width="33.33%">Status</th>
+                <th scope="col" width="33.33%"> </th>
+              </tr>
+            </thead>
+            <tbody style="text-align: left">
+              <tr *ngFor="let pricingZone of displayPricingZones">
+                <td *ngIf='!pricingZone.isEditing'>{{pricingZone.name}}</td>
+                <td *ngIf='pricingZone.isEditing'>
+                  <input class="form-control form-control-sm mx-auto" value="" type="text" [(ngModel)]="pricingZone.name" style="text-align: left">
+                </td>
+
+                <td>
+                  <ui-switch [(ngModel)]="pricingZone.isActive" (change)="onActiveChange($event, pricingZone)" [disabled]='!pricingZone.isEditing'></ui-switch>
+                </td>
+
+                <td class="text-right">
+                  <button type="button" class="btn btn-outline-dark  text-left py-0 border-0" (click)='onEditClick(pricingZone)' *ngIf='!pricingZone.isEditing'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-dark text-left py-0 border-0" (click)='deletePrizingZone(pricingZone)' *ngIf='!pricingZone.isEditing'>
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-dark  text-left py-0 border-0" (click)='onSaveClick(pricingZone)' *ngIf='pricingZone.isEditing'>
+                    <i class="fa fa-save" aria-hidden="true"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-dark text-left py-0 border-0" (click)='onCloseClick(pricingZone)' *ngIf='pricingZone.isEditing'>
+                    <i class="fa fa-close" aria-hidden="true"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf='newPriceZone'>
+                <td>
+                  <input class="form-control form-control-sm mx-auto" value="" type="text" [(ngModel)]="newPriceZone.name">
+                </td>
+                <td>
+                  <ui-switch [(ngModel)]="newPriceZone.isActive" (change)="onActiveChange($event, null)"></ui-switch>
+                </td>
+                <td>
+                  <button type="button" class="btn pull-right btn-outline-primary" (click)='addPricingZone()'>Add</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <div class="container-fulid" hidden=true>
+        <div class=" my-3">
+          <div class="col text-center">
+            <button type="button" data-toggle="modal" data-target="#Pricing_Zone_addedPopup" class="btn btn-primary">UPDATE</button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

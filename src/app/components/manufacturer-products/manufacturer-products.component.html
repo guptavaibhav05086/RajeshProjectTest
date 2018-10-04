@@ -1,0 +1,131 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px' }"></ngx-loading>
+
+<div *ngIf="productData">
+	<div>
+		<div class="container-fulid container-body">
+			<div class="row mx-0">
+				<div class="col-6">
+					<h2>Manufacturer’s Products</h2>
+				</div>
+			</div>
+			<div class=" bs-wizard row mx-5 justify-content-md-center">
+				<div class="col-4 bs-wizard-step ">
+					<a href="Parent_AddSellerVideo.html"></a>
+					<div class="progress">
+						<div class="progress-bar"></div>
+					</div>
+					<a  class="bs-wizard-dot"></a>
+					<div class="bs-wizard-info text-center">BASIC DETAILS</div>
+				</div>
+				<div class="col-4 bs-wizard-step active">
+					<!-- complete -->
+					<div class="progress">
+						<div class="progress-bar"></div>
+					</div>
+					<a  class="bs-wizard-dot"></a>
+					<div class="bs-wizard-info text-center">PRODUCT DETAILS</div>
+				</div>
+			</div>
+			<div class="card-body content-card-body ">
+				<div class="row">
+					<div class="col col-auto">
+						<h4>Product List & Details</h4>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-striped text-left table-One border-one">
+						<thead>
+							<tr>
+								<th scope="col">Product Code </th>
+								<th scope="col">Product Category</th>
+								<th scope="col">Sub Category</th>
+								<th scope="col">Product Type</th>
+								<th scope="col">Product Name</th>
+								<th scope="col" class="">UOM</th>
+								<th scope="col" class="">Brand</th>
+								<th scope="col" class="">Grade/Specs</th>
+								<th scope="col" class="">HSN code</th>
+								<th scope="col" class="">Image</th>
+								<th scope="col" class=""> Action</th>
+								<th scope="col" class=""> Delete</th>
+								<th scope="col" class=""> Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let product of productData.products; let i=index">
+								<td>
+									{{product.code}}
+								</td>
+								<td>
+									{{product.category.name}}
+								</td>
+								<td>
+									{{product.subCategory.name}}
+								</td>
+								<td>
+									{{product.type.name}}
+								</td>
+								<td>
+									{{product.name}}
+								</td>
+								<td>
+									{{product.uom}}
+								</td>
+								<td>
+									{{product.brand.name}}
+								</td>
+								<td>
+									{{product.gradeOrSpec}}
+								</td>
+								<td>
+									{{product.hsnCode}}
+								</td>
+								<td>
+									<div class="upload-image">
+										<img src="{{product.imageUrl}}" alt="">
+									</div>
+								</td>
+								<td>
+									<button class="btn btn-outline-dark  text-left py-0 border-0"
+									 type="button" title="View/Edit"
+									 (click)="EditProduct(product)" data-toggle="modal"
+									 data-target="#myModal">
+										<i aria-hidden="true" class="fa fa-pencil"></i>
+									</button>
+									<!-- <button type="button" (click)="EditProduct(product)" data-toggle="modal"
+                                                                                data-target="#myModal" class="btn btn-outline-primary">Show more/Edit </button> -->
+								</td>
+								<td>
+									<button type="button" (click)="DeleteProduct(product)" 
+									class="btn btn-outline-dark text-left py-0 border-0" title="Delete"
+									[disabled]="!product.statusChecked">
+										<i class="fa fa-trash" aria-hidden="true"></i>
+									</button>
+								</td>
+								<td>
+										<ui-switch [(ngModel)]="product.statusChecked" (change)="onActiveChange($event, pricingZone)" [disabled]='true'></ui-switch>
+
+								</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="13">
+									<button type="button" (click)="AddNewProduct()" class="btn btn-outline-primary">Add New Product </button>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<div class="container-fulid">
+					<div class="my-3">
+						<div class="col text-center">
+							<button type="button" (click)="ShowManufacturerRegistration()" class="btn btn-outline-primary">BACK </button>
+							<button type="button" class="btn btn-primary" [hidden]="true">SUBMIT</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

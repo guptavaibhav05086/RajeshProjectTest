@@ -1,0 +1,18 @@
+.logo-slogan {
+    font-size: 30px;
+    color: #707070;
+    font-family: 'Lato', sans-serif;
+    padding: 20px 0px;
+    font-weight: bold;
+}
+.logo-slogan span {
+    color: #BD4930;
+}
+
+.form-padding{
+    padding: 3px;
+}
+
+.sub-btn{
+    text-align: center;
+}

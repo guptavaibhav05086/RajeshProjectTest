@@ -1,0 +1,266 @@
+<div class="navbar">
+
+
+    <button type="button" class="btn btn-sidebar" data-toggle="sidebar">
+        <i class="fa fa-bars"></i>
+    </button>
+
+
+    <div class="navbar-brand">
+        <img src="../../../assets/mSupply_Logo.png" alt="logo" />
+    </div>
+    <div class="logo-slogan">
+        <span>D</span>igital
+        <span>S</span>ales &
+        <span>D</span>istribution</div>
+    <div class="right-section">
+        <div class="user-info" *ngIf="!router.url.includes('/login')">
+
+            <div class="nav-item dropdown pull-right">
+                <a class="nav-profile" id="profileDropdown" href="#">
+                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+
+                </a>
+                <a class="nav-profile" id="profileDropdown" href="#">
+                    <i class="fa fa-bell" aria-hidden="true"></i>
+
+                </a>
+                <a class=" nav-profile" id="profileDropdown" (click)="openProfile(profile)">
+                    <i class="fa fa-user-circle-o"></i>
+
+                </a>
+                <a class=" nav-profile font-weight-bold color-grey-off" id="profileDropdown" (click)="signOut()">
+                    SignOut
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</div>
+
+<div class="navbar-two" *ngIf="!router.url.includes('/login')">
+</div>
+
+<!-- <ng-template #profile let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Profile update</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Personal Information</p>
+
+        <form novalidate #updateUserForm="ngForm" (ngSubmit)="updateUser(updateUserForm)">
+            <div class="form-inline margin-bottom form-padding">
+                <label class="col-sm-3">Mobile Number
+                    <span class="asterisc"> *</span>
+                </label>
+                <label>{{mobileNumber}}</label>
+            </div>
+            <div class="form-inline margin-bottom form-padding">
+                <label class="col-sm-3">First Name
+                    <span class="asterisc"> *</span>
+                </label>
+                <input type="text" required [(ngModel)]="firstName" name="firstName" class="form-control">
+            </div>
+            <div class="form-inline margin-bottom form-padding">
+                <label class="col-sm-3">Last Name
+                    <span class="asterisc"> *</span>
+                </label>
+                <input type="text" required [(ngModel)]="lastName" name="lastName" class="form-control">
+            </div>
+            <div class="form-inline margin-bottom form-padding">
+                <label class="col-sm-3">Email
+                    <span class="asterisc"> *</span>
+                </label>
+                <input type="text" required [(ngModel)]="email" name="email" class="form-control">
+            </div>
+            <div class="form-inline container">
+                <input type="checkbox" [(ngModel)]="changePassword" name="changePassword" class="form-control checkmark"> Change Password
+            </div>
+            <div id="updatePassword" *ngIf="changePassword">
+                <div class="form-inline margin-bottom form-padding">
+                    <label class="col-sm-3">Current Password
+                        <span class="asterisc"> *</span>
+                    </label>
+                    <input type="password" required minlength="6" name="currentPassword" class="form-control" [(ngModel)]="currentPasswordText"
+                        #currentPassword="ngModel">
+                    <div *ngIf="currentPassword.invalid && updateUserForm.submitted" class="alert alert-danger">
+                        <div *ngIf="currentPassword.errors.required">
+                            Current Password is required.
+                        </div>
+                        <div *ngIf="currentPassword.errors.minlength">
+                            Password must be at least 6 characters long.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline margin-bottom form-padding">
+                    <label class="col-sm-3">New Password
+                        <span class="asterisc"> *</span>
+                    </label>
+                    <input type="password" required minlength="6" name="newPassword" class="form-control" [(ngModel)]="newPasswordText" #newPassword="ngModel">
+                    <div *ngIf="newPassword.invalid && updateUserForm.submitted" class="alert alert-danger">
+                        <div *ngIf="newPassword.errors.required">
+                            New Password is required.
+                        </div>
+                        <div *ngIf="newPassword.errors.minlength">
+                            Password must be at least 6 characters long.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline margin-bottom form-padding">
+                    <label class="col-sm-3">Confirm Password
+                        <span class="asterisc"> *</span>
+                    </label>
+                    <input type="password" required minlength="6" name="ConfirmPassword" class="form-control" [(ngModel)]="ConfirmPasswordText"
+                        #ConfirmPassword="ngModel">
+                    <div *ngIf="ConfirmPassword.invalid && updateUserForm.submitted" class="alert alert-danger">
+                        <div *ngIf="ConfirmPassword.errors.required">
+                            Password is required.
+                        </div>
+                        <div *ngIf="newPasswordText !== '' && ConfirmPasswordText !== newPasswordText" class="alert alert-danger">
+                            Password didnot match
+                        </div>
+                        <div *ngIf="ConfirmPassword.errors.minlength">
+                            Password must be at least 6 characters long.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary" value="SAVE">
+            </div>
+        </form>
+    </div>
+
+</ng-template> -->
+
+<ng-template #profile let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Profile Update</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">✕</span>
+        </button>
+    </div>
+    <div class="modal-body mt-0 pt-0">
+        <h3 class="header">Personal Information</h3>
+        <form novalidate #updateUserForm="ngForm" (ngSubmit)="updateUser(updateUserForm)">
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Mobile Number*</label><br>
+                        <label>+91 {{mobileNumber}}</label>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="">First Name*
+                        </label>
+                        <input type="text" name="firstName" #firstName = "ngModel" class="form-control" [(ngModel)]="firstNametxt" required [disabled]="true">
+                        <div *ngIf="firstName.invalid && updateUserForm.submitted" class="alert alert-danger">
+                            First Name is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="">Last Name*
+                        </label>
+                        <input type="text" name="lastName" class="form-control"  #lastName = "ngModel" [(ngModel)]="lastNametxt" required [disabled]="true">
+                        <div *ngIf="lastName.invalid && updateUserForm.submitted" class="alert alert-danger">
+                            Last Name is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+
+                    <div class="form-group">
+                        <label class="">Email* </label>
+                        <input type="email" name="email" class="form-control" [(ngModel)]="emailTxt" #email = "ngModel" required [disabled]="true">
+                        <div *ngIf="email.invalid && updateUserForm.submitted" class="alert alert-danger">
+                            Email Name is required.
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <label class="checkbox checkbox-primary ">
+                        <input type="checkbox" [(ngModel)]="changePassword" name="changePassword" class="form-control checkmark">
+                        <span class="check-mark"></span>Change Password
+                    </label>
+                </div>
+
+            </div>
+
+            <div id="updatePassword" *ngIf="changePassword">
+                <div class="row mt-4">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="">Current Password*
+                            </label>
+                            <input type="password" minlength="6" #currentPassword = "ngModel" name="currentPassword" class="form-control" [(ngModel)]="currentPasswordText" required>
+                            <div *ngIf="currentPassword.invalid && updateUserForm.submitted" class="alert alert-danger">
+                                <div *ngIf="currentPassword.errors.required">
+                                    Current Password is required.
+                                </div>
+                                <div *ngIf="currentPassword.errors.minlength">
+                                    Password must be at least 6 characters long.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="">New Password*
+                            </label>
+                            <input type="password" minlength="6" name="newPassword" #newPassword = "ngModel" class="form-control" [(ngModel)]="newPasswordText" required>
+                            <div *ngIf="newPassword.invalid && updateUserForm.submitted" class="alert alert-danger">
+                                <div *ngIf="newPassword.errors.required">
+                                    New Password is required.
+                                </div>
+                                <div *ngIf="newPassword.errors.minlength">
+                                    Password must be at least 6 characters long.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="">Confirm Password* </label>
+                            <input type="password" minlength="6" name="ConfirmPassword" #ConfirmPassword = "ngModel" class="form-control" [(ngModel)]="ConfirmPasswordText" required>
+                            <div *ngIf="(ConfirmPassword.invalid && updateUserForm.submitted) || (newPasswordText !== ConfirmPasswordText && updateUserForm.submitted)" class="alert alert-danger">
+                                    <div *ngIf="(newPasswordText !== ConfirmPasswordText)">
+                                            Password didnot match.
+                                        </div>
+                                <div *ngIf="ConfirmPassword.errors.required">
+                                    Confirm Password is required.
+                                </div>
+                                <div *ngIf="ConfirmPassword.errors.minlength">
+                                    Password must be at least 6 characters long.
+                                </div>
+                            </div>
+                             
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sub-btn">
+            <input type="submit" class="btn btn-primary btn-priamary set-col" value="Save"><!--this button should be innside form for vaidation-->
+        </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+            
+        <!-- <button type="button" class="btn btn-primary btn-priamary set-col" (click)="updateUser(updateUserForm)">Save</button> -->
+    </div>
+</ng-template>

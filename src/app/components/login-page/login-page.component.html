@@ -1,0 +1,99 @@
+<div id="login-page" class="login-hight-one">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px' }"></ngx-loading>
+    
+  <div class="row st-hg">
+    <!--<img class="img-bg" src="../../assets/img/login_bg.jpg">-->
+  
+      <div class="panel panel-default login-area">
+        <div class="panel-heading">
+          <h3 class="panel-title">Internal Panel Login</h3>
+        </div>
+        <div class="panel-body">
+          <form #loginForm="ngForm">
+            <fieldset>
+              <div class="form-group">
+                <input ngModel class="form-control" placeholder="Username" name="emailId" type="text" #email (change)="validateEmail(email.value)">
+                 <div [hidden]="isEmailValid" class="alert alert-danger">
+                                                             Email-Id is incorrect
+                                                        </div>
+              </div>
+              <div class="form-group">
+                <input data-toggle data-eye-class="fa" data-placement="after" ngModel class="form-control" placeholder="Password" name="password"
+                  type="password" required value="">
+              </div>
+              <div  class="form-group">
+                <label  class="checkbox checkbox-primary">
+                  <input class="form-control" [checked]="rememberMe" (change)="rememberMe = !rememberMe"  type="checkbox" >
+                  <span class="check-mark"></span> Remember Me </label>
+              </div>
+              <div class="text-center">
+                  <button class="btn btn-lg " (click)="login(loginForm)">Login</button>
+              </div>
+             
+              <br/>
+                <label class="set-pos font-size">
+                  <a (click)="openFrgtPswrdModel()">Forgot password ?</a>
+                </label>
+             
+            </fieldset>
+          </form>
+        </div>
+      </div>
+
+  
+  </div>
+  
+      
+    
+   
+  <div class="content-login" style="display:none">
+    <div class="row justify-content-md-center text-center login-link">
+
+      <div class="col">
+        <img src="../../assets/img/login-img1.png" alt="" />
+        <p>Trustworthy platform</p>
+      </div>
+      <div class="col">
+        <img src="../../assets/img/login-img2.png" alt="" />
+        <p>Reachout new locations</p>
+      </div>
+      <div class="col">
+        <img src="../../assets/img/login-img3.png" alt="" />
+        <p>Verified Buyers/Retailers</p>
+      </div>
+      <div class="col">
+        <img src="../../assets/img/login-img4.png" alt="" />
+        <p>Financial Security</p>
+      </div>
+
+
+
+    </div>
+
+  </div>
+
+
+</div>
+<div class="content-login">
+    <div class="row justify-content-md-center text-center login-link">
+        © 2018-19 mSupply.in. All rights reserved
+      </div>
+      </div>
+
+
+
+
+<!-- code for modal starts here-->
+<!-- <ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title set-mar">Forgot Password</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="text-center">Enter your email ID to reset password</p>
+    <input type="email" name="email" class="form-control" placeholder="Enter email ID">
+    <button type="button" class="btn btn-primary reset-password" (click)="c('Close click')">Reset Password</button>
+  </div>
+</ng-template> -->

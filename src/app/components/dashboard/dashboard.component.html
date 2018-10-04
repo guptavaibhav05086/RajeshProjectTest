@@ -1,0 +1,47 @@
+<div class=" mt-4 mx-0 dashbord-row">
+  <!-- <app-dashboard-card class="set-disp" *ngFor="let dashboard of dashboardDatas" [cardData]="dashboard"></app-dashboard-card> -->
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px' }"></ngx-loading>
+  
+  <div class="row mx-0" *ngIf="showCards">
+    <div class="col" class="set-disp">
+        <div class="card"> 
+            <p>Purchase Order Pending for Approval</p>        
+          <br/>
+            <a *ngIf="data.pendingOrdersCount > 0" routerLink="/orders" [queryParams]="{status: 'New'}" class="mt-5 underline">{{data.pendingOrdersCount}}</a>  
+            <label *ngIf="data.pendingOrdersCount == 0" class="mt-5">{{data.pendingOrdersCount}}</label>        
+        </div>
+    </div>
+    <div class="col" class="set-disp">
+        <div class="card"> 
+            <p>Manufacturer Price Validity About to Expire</p>        
+          <br/>
+            <a *ngIf="data.expiringSellerPricesCount > 0" routerLink="/pricing-to-msupply" class="mt-5 underline">{{data.expiringSellerPricesCount}}</a>
+            <label *ngIf="data.expiringSellerPricesCount == 0" class="mt-5">{{data.expiringSellerPricesCount}}</label>    
+        </div>
+    </div>
+    <div class="col" class="set-disp">
+        <div class="card"> 
+            <p>mSupply Price Validity About to Expire</p>        
+          <br/>
+            <a *ngIf="data.expiringMSupplyPricesCount > 0" routerLink="/msupply-pricing" class="mt-5 underline">{{data.expiringMSupplyPricesCount}}</a>
+            <label *ngIf="data.expiringMSupplyPricesCount == 0" class="mt-5">{{data.expiringMSupplyPricesCount}}</label> 
+        </div>
+    </div>
+    <div class="col" class="set-disp">
+        <div class="card"> 
+            <p>Manufacturer Registration Pending for Approval</p>        
+          <br/>
+            <a *ngIf="data.pendingManufacturersCount > 0"  routerLink="/manufacturers" [queryParams]="{status: 'Pending'}" class="mt-5 underline">{{data.pendingManufacturersCount}}</a>
+            <label *ngIf="data.pendingManufacturersCount == 0" class="mt-5">{{data.pendingManufacturersCount}}</label> 
+        </div>
+    </div>
+    <div class="col" class="set-disp">
+        <div class="card"> 
+            <p>Buyer Registration Pending for Approval</p>        
+          <br/>
+            <a *ngIf="data.pendingBuyersCount > 0"  routerLink="/buyers" [queryParams]="{status: 'Pending'}" class="mt-5 underline">{{data.pendingBuyersCount}}</a>
+            <label *ngIf="data.pendingBuyersCount == 0" class="mt-5">{{data.pendingBuyersCount}}</label> 
+        </div>
+    </div>
+  </div>
+  </div>

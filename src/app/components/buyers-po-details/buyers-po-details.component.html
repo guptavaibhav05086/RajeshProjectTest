@@ -1,0 +1,222 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px',position: 'absolute', height:'100vh'}"></ngx-loading>
+
+<div class="container-fulid container-body" *ngIf="poDetails.length != 0">
+  <div class="pl-2"> <h2>PO {{poDetails.orderNumber}}</h2></div>
+
+  <div class="card-body content-card-body ">
+
+    <div class="table-filter">
+      <div class="row">
+        <div class="col">
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-5 col-form-label">Buyer Name:</label>
+            <div class="col-sm-7">
+              <input type="text" readonly="" class="form-control-plaintext font-weight-bold" value="{{poDetails.buyer.companyName}}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-5 col-form-label">Mobile Number:</label>
+            <div class="col-sm-7">
+              <input type="text" readonly="" class="form-control-plaintext" value="+91 {{poDetails.buyer.mobileNumber}}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-5 col-form-label">Credit Limit:</label>
+            <div class="col-sm-7" *ngIf="poDetails.buyer.termsOfTrade && poDetails.buyer.termsOfTrade.creditLimit">
+              <input type="text" readonly="" class="form-control-plaintext" value="&#8377;{{poDetails.buyer.termsOfTrade.creditLimit | number : '1.2-2'}}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-5 col-form-label">Credit period:</label>
+            <div class="col-sm-7" *ngIf="poDetails.buyer.termsOfTrade && poDetails.buyer.termsOfTrade.creditPeriod">
+              <input type="text" readonly="" class="form-control-plaintext" value="{{poDetails.buyer.termsOfTrade.creditPeriod}} Days">
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="col">
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-5 col-form-label">Status:</label>
+            <div class="col-sm-7">
+              <input type="text" *ngIf="poDetails.status == 'New'" readonly="" class="form-control-plaintext text-success" value="{{poDetails.status}} ">
+              <input type="text" *ngIf="poDetails.status == 'Accepted'" readonly="" class="form-control-plaintext text-success" value="{{poDetails.status}} ">
+              <input type="text" *ngIf="poDetails.status == 'Awaiting Payments'" readonly="" class="form-control-plaintext text-warning"
+                value="{{poDetails.status}}"/>
+              <input type="text" *ngIf="poDetails.status == 'Manufacturer Confirmed'" readonly="" class="form-control-plaintext text-blue-off"
+                value="{{poDetails.status}}"/>
+              <input type="text" *ngIf="poDetails.status == 'Ready to Ship'" readonly="" class="form-control-plaintext text-blue-off" value="{{poDetails.status}}"/>
+              <input type="text" *ngIf="poDetails.status == 'Invoiced'" readonly="" class="form-control-plaintext text-success" value="{{poDetails.status}}"/>
+              <input type="text" *ngIf="poDetails.status == 'Delivered'" readonly="" class="form-control-plaintext text-muted" value="{{poDetails.status}}"/>
+              <div class="text-danger" *ngIf="poDetails.status == 'Rejected'"><span>{{poDetails.status}} <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" ngbTooltip="{{poDetails.rejectReason}}"></i></span></div>
+              <!-- <input type="text" *ngIf="poDetails.status == 'Rejected'" readonly="" class="form-control-plaintext text-danger" value="{{poDetails.status}}"/>
+              <span *ngIf="poDetails.status == 'Rejected'"><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" ngbTooltip="{{poDetails.rejectReason}}"></i></span> -->
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-5 col-form-label">Payment Terms:</label>
+            <div class="col-sm-7">
+              <input type="text" *ngIf="poDetails.paymentTerms == 'Advance'" readonly="" class="form-control-plaintext" value="100% {{poDetails.paymentTerms}}">
+              <input type="text" *ngIf="poDetails.paymentTerms == 'Credit'" readonly="" class="form-control-plaintext" value="{{poDetails.paymentTerms}} ({{poDetails.creditDays}} Days)">            
+            </div>
+          </div>
+          <!-- <div class="form-group row">
+            <label for="staticEmail" class="col-sm-5 col-form-label">Reject Reason:</label>
+            <div class="col-sm-7">
+              <input type="text" readonly="" class="form-control-plaintext" value="{{poDetails.rejectReason}}">
+            </div>
+          </div> -->
+
+        </div>
+
+        <div class="col">
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-6 col-form-label">Order Date:</label>
+            <div class="col-sm-6">
+              <input type="text" readonly="" class="form-control-plaintext" value="{{poDetails.createdAt | date:'dd/MM/yyyy'}}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-6 col-form-label">Expected Delivery Date:</label>
+            <div class="col-sm-6">
+              <input type="text" readonly="" class="form-control-plaintext" value="{{poDetails.expectedDeliveryDate | date:'dd/MM/yyyy'}}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-6 col-form-label">Delivery Location:</label>
+            <div class="col-sm-6">
+              <input type="text" readonly="" class="form-control-plaintext font-weight-bold" value="{{deliveryLocation}}">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="table-body ">
+      <div class="table-responsive">
+        <table class="table table-striped table-space mb-0 table-One text-left table-three">
+          <thead>
+            <tr>
+              <th scope="col" width="10%">Sl no.</th>
+              <th scope="col" width="30%">Product</th>
+              <th scope="col" width="15%">UOM</th>
+              <th scope="col" width="15%">Quantity</th>
+              <th scope="col" width="15%">Net Rate &#8377;</th>
+              <th scope="col" width="15%">Net Amount &#8377;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of products; let i = index">
+              <td>{{product.serialNumber}}</td>
+              <td>
+                <div class="pull-left">
+                  <div class="upload-image">
+                    <img src="{{product.product.imageUrl}}" alt="" />
+                  </div>
+
+                </div>
+                <div class="pull-left text-left pl-2">
+                  {{product.product.name}}
+                  <br/>
+                  <div class="color-grey-off-light">{{product.product.type.name}} {{product.product.gradeOrSpec}}</div>
+                </div>
+              </td>
+              <td>Unit</td>
+              <td>{{product.quantity}}</td>
+              <td>{{inrFormatter(product.rate)}}</td>
+              <td>{{inrFormatter(product.value)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+    </div>
+    <table class="table borderless border-0 mb-0 table-three text-left">
+      <tbody>
+        <tr>
+          <td colspan="4" width="70%"></td>
+          <td width="15%">
+            <label>Basic Amount &#8377;:</label>
+          </td>
+          <td width="15%">{{inrFormatter(poDetails.total)}}</td>
+        </tr>
+        <tr>
+          <td colspan="4" width="70%"></td>
+          <td width="15%">
+            <label>GST &#8377;:</label>
+          </td>
+          <td width="15%">{{inrFormatter(poDetails.gst)}}</td>
+        </tr>
+        <!-- <tr>
+          <td colspan="4" width="70%"></td>
+          <td width="15%">
+            <label>Net Amount:</label>
+          </td>
+          <td width="15%">&#8377;{{poDetails.netAmount | number : '1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td colspan="4" width="70%"></td>
+          <td width="15%">
+            <label>Transport:</label>
+          </td>
+          <td width="15%">
+            <span class="font-weight-bold">&#8377;{{poDetails.netAmount | number : '1.2-2'}}</span>
+          </td>
+        </tr> -->
+        <tr>
+          <td colspan="4" width="70%"></td>
+          <td width="15%">
+            <label>Gross Amount &#8377;:</label>
+          </td>
+          <td width="15%">
+            <span class="font-weight-bold">{{inrFormatter(poDetails.grossAmount)}}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr/>
+
+    <h5>Remarks</h5>
+    <p>{{poDetails.remarks}} </p>
+
+    <div class=" row">
+      
+      <div class="col col-12 text-center ">
+          <button type="button" class="btn btn-outline-dark pull-left" (click)="onBckClk()">BACK</button>
+     
+        <button type="button" class="btn btn-outline-dark " (click)="rejectPo(rejectPoContent)" [disabled]="poDetails.status == 'Rejected' || !canApproveReject">REJECT</button>
+        <button type="button" class="btn btn-primary ml-3" data-toggle="modal" (click)="ApproveOrder()" [disabled]="poDetails.status == 'Accepted' || !canApproveReject">ACCEPT</button>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<ng-template #rejectPoContent let-c="close" let-d="dismiss">
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title text-center" id="NewPricingTitle">Reject PO</h5>
+      <button type="button" class="close" aria-label="Close">
+        <span aria-hidden="true" (click)="c('cnacel clicked')">&#10005;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p class="text-center modal-p">
+        Are you sure that you want to reject PO number {{poDetails.orderNumber}} ? If yes then please provide us the reason for rejecting, else
+        press cancel.
+      </p>
+      <textarea class="form-control" id="exampleFormControlTextarea1" [(ngModel)]="rejectReason" rows="3"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark modal-add" (click)="c('cnacel clicked')">CANCEL</button>
+      <button type="button" class="btn btn-primary modal-add" (click)="rejectOrder()">REJECT</button>
+    </div>
+  </div>
+
+</ng-template>

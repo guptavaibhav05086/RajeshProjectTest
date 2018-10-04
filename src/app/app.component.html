@@ -1,0 +1,20 @@
+<div class="app">
+  <div class="app-body">
+    <app-header></app-header>
+    <div class="app-over">
+      <div *ngIf='showNav' class="app-sidebar hight-one sidebar-slide-left">
+        <div class="">
+          <app-left-nav-bar></app-left-nav-bar>
+        </div>
+      </div>
+      <div class="app-content pb-3 hight-one login-hight-one">
+        <div [ngClass]="router.url != '/' ? '' : ''">
+          <div class="routeContainer">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

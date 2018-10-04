@@ -1,0 +1,203 @@
+<div class="modal-header">
+  <h4 class="modal-title">Bulk Purchase Discount</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="table-body">
+    <div class="table-filter">
+        <div class="row">
+            <div class="col">
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-5 col-form-label">Product Name:</label>
+                    <div class="col-sm-7">
+                        <input type="text" readonly="" class="form-control-plaintext font-weight-bold" [(ngModel)]="product.name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-5 col-form-label">Category:</label>
+                    <div class="col-sm-7">
+                        <input type="text" readonly="" class="form-control-plaintext" [(ngModel)]="product.categoryName">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-5 col-form-label">Product Type:</label>
+                    <div class="col-sm-7">
+                        <input type="text" readonly="" class="form-control-plaintext" 
+                        [(ngModel)]="product.typeName">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-5 col-form-label">Brand:</label>
+                    <div class="col-sm-7">
+                        <input type="text" readonly="" class="form-control-plaintext"
+                         [(ngModel)]="product.brandName">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col">
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-5 col-form-label">Sub Category:</label>
+                    <div class="col-sm-7">
+                        <input type="text" readonly="" class="form-control-plaintext" 
+                        [(ngModel)]="product.subCategoryName">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-5 col-form-label">Grade/Spec:</label>
+                    <div class="col-sm-7">
+                        <input type="text" readonly="" class="form-control-plaintext" 
+                        [(ngModel)]="product.gradeOrSpec">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-5 col-form-label">UOM:</label>
+                    <div class="col-sm-7">
+                        <input type="text" readonly="" class="form-control-plaintext"
+                         [(ngModel)]="product.uom">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-5 col-form-label">Product Code:</label>
+                    <div class="col-sm-7">
+                        <input type="text" readonly="" class="form-control-plaintext" 
+                        [(ngModel)]="product.code">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-one">
+        <h5>Applicable to</h5>
+    <div class="row ">
+        <div class="col col-auto pt-1 ">
+            <label class="radio  form-check-inline">
+                <input type="radio" name="radio-group" alue="option1" 
+                [value]="radioBoxApplicableSelection[0].id" 
+                [checked]="radioBoxApplicableSelection[0].id == selectedApplicableOption.id" 
+                (change)="radioButtonSelection(radioBoxApplicableSelection[0])">
+                <span class="check-mark"></span> Entire Category
+            </label>
+        </div>
+        <div class="col col-auto pt-1 pr-0">
+            <label class="radio  form-check-inline">
+                <input type="radio" name="radio-group" alue="option2" [value]="radioBoxApplicableSelection[1].id" 
+                [checked]="radioBoxApplicableSelection[1].id == selectedApplicableOption.id" 
+                (change)="radioButtonSelection(radioBoxApplicableSelection[1])">
+                <span class="check-mark"></span> Entire Sub Category
+            </label>
+        </div>
+        <div class="col col-auto pt-1 pr-0">
+            <label class="radio  form-check-inline">
+                <input type="radio" name="radio-group" alue="option3" [value]="radioBoxApplicableSelection[2].id" 
+                [checked]="radioBoxApplicableSelection[2].id == selectedApplicableOption.id"
+                 (change)="radioButtonSelection(radioBoxApplicableSelection[2])">
+                <span class="check-mark"></span> For this SKU
+            </label>
+        </div>
+    </div>
+        <h5 class="mt-3">Calculation based on</h5>
+    <div class="row ">
+        <div class="col col-auto pt-1 ">
+            <label class="radio  form-check-inline">
+                <input type="radio" name="radio-group2" alue="option1" [value]="radioBoxCalculationSelection[0].id" 
+                [checked]="radioBoxCalculationSelection[0].id == selectedCalculationOption.id" 
+                (change)="radioButtonSelectionCalculation(radioBoxCalculationSelection[0])">
+                <span class="check-mark"></span> Quantity wise
+            </label>
+        </div>
+        <div class="col col-auto pt-1 pr-0">
+            <label class="radio  form-check-inline">
+                <input type="radio" name="radio-group2" alue="option2"
+                [value]="radioBoxCalculationSelection[1].id" 
+                [checked]="radioBoxCalculationSelection[1].id == selectedCalculationOption.id" 
+                (change)="radioButtonSelectionCalculation(radioBoxCalculationSelection[1])">
+                <span class="check-mark"></span> Sale Value wise
+            </label>
+        </div>
+      
+    </div>
+</div>
+
+<h5 class="mt-3">Slabs, Rates & Discounts</h5>
+<div class="table-responsive">
+    <table class="table table-striped text-left table-One border-one">
+        <thead>
+            <tr>
+                
+                <th scope="col">Slab from</th>
+                <th scope="col">Slab to</th>
+                <th scope="col">Rate (₹)</th>
+                <th scope="col">Discount % from MRP</th>
+                <th scope="col" class=""></th>
+                
+                
+            </tr>
+        </thead>
+        <tbody>
+            
+            
+            
+            <tr *ngFor="let slab of discountSlab;let i = index">
+
+                <td><input class="form-control w-75 pull-left form-control-sm" [(ngModel)]="slab.slabFrom"  type="number" placeholder=""> <span class="pl-2"> {{product.uom}}</span></td>
+                <td>
+                    <input class="form-control w-75 pull-left form-control-sm" [(ngModel)]="slab.slabTo" type="number" placeholder=""> <span class="pl-2"> {{product.uom}}</span></td>
+                <td><input class="form-control form-control-sm" [(ngModel)]="slab.rate" type="number" placeholder="" (change)="calculateDiscount(slab.slabId,slab.rate)"> </td>
+                <td>{{slab.discount  | number:'1.0-2' }}%</td>
+                <!-- <td *ngIf="slab.isEditClicked === false">{{slab.discount}}%</td>
+                <td *ngIf="slab.isEditClicked === true"><input class="form-control form-control-sm" [(ngModel)]="slab.discount"  type="number" placeholder=""> </td> -->
+                <td>
+                    <button type="button" class="btn btn-outline-dark pull-left text-left py-0 border-0" (click)="togggleEdit(slab.slabId)"><i class="fa fa-pencil" aria-hidden="true"></i> </button> 
+                    <button type="button" class="btn btn-outline-dark text-left pull-left py-0 border-0" (click)="removeSlab(slab.slabId)"><i class="fa fa-trash" aria-hidden="true"></i> </button></td>
+            </tr>
+            <!-- <tr>
+
+                <td><input class="form-control w-75 pull-left form-control-sm" value="" type="text" placeholder=""> <span class="pl-2"> {{product.uom}}</span></td>
+                <td>
+                    <input class="form-control w-75 pull-left form-control-sm" value="" type="text" placeholder=""> <span class="pl-2"> {{product.uom}}</span></td>
+                <td><input class="form-control form-control-sm" value="" type="text" placeholder=""> </td>
+                <td>5%</td>
+                
+            </tr> -->
+            <tr>
+                    <td></td>
+                    <td>
+                        </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                            <button type="button" class="btn btn-outline-primary" (click)="addNewSlab()">ADD</button>
+                        </td>
+            </tr>
+            <!-- <tr>
+
+                <td><input class="form-control w-75 pull-left form-control-sm" value="200" type="text" placeholder=""> <span class="pl-2"> Bag</span></td>
+                <td>
+                    <input class="form-control w-75 pull-left form-control-sm" value="700" type="text" placeholder=""> <span class="pl-2"> Bag</span></td>
+                <td><input class="form-control form-control-sm" value="200" type="text" placeholder=""> </td>
+                <td>5%</td>
+                <td>
+                    <button type="button" class="btn btn-outline-dark pull-left text-left py-0 border-0"><i class="fa fa-pencil" aria-hidden="true"></i> </button> 
+                    <button type="button" class="btn btn-outline-dark text-left pull-left py-0 border-0"><i class="fa fa-trash" aria-hidden="true"></i> </button></td>
+            </tr>
+            <tr>
+
+                
+                <td>
+                    <button type="button" class="btn btn-outline-primary" (click)="addNewSlab()">ADD</button>
+                </td>
+            </tr> -->
+        </tbody>
+    </table>
+</div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="updateRecords();activeModal.close(selectedDisconut)">Save</button>
+</div>

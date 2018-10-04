@@ -1,0 +1,271 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px',position: 'absolute', height:'100vh'}"></ngx-loading>
+
+<div class="container-fulid container-body" >
+  <form novalidate #addUserForm="ngForm" (ngSubmit)="createOrUpdate(addUserForm)">
+      
+
+          <div class="col-12">
+    <h2>Add/Edit New User
+    </h2>
+
+</div>
+    <div class="card-body content-card-body ">
+      <div class="form-one">
+
+
+        <div class="row ">
+
+          <div class="col-7">
+            <h3 class="header">User Details</h3>
+            <fieldset ngModelGroup="profile">
+              <div class="row">
+                <div class="col-5">
+                  <div class="form-group">
+                    <label for="exampleFormControlInput1">First Name*</label>
+                    <input type="firstName" maxlength="100" required name="firstName" [(ngModel)]="firstNameTxt" class="form-control" id="firstName"
+                      #firstName="ngModel" [disabled]="this.userId">
+                    <div *ngIf="firstName.invalid && (addUserForm.submitted || firstName.errors.maxlength)" class="text-danger">
+
+                      <div *ngIf="firstName.errors && firstName.errors.required">
+                        First Name is required.
+                      </div>
+                      <div *ngIf="firstName.errors && firstName.errors.maxlength">
+                        First Name can be max 100 characters long.
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <div class="form-group">
+                    <label for="exampleFormControlInput1">Last Name*</label>
+                    <input type="text" required maxlength="100" ngModel class="form-control" name="lastName" id="lastName" [(ngModel)]="lastNameTxt"
+                      #lastName="ngModel" [disabled]="this.userId">
+                    <div *ngIf="lastName.invalid && (addUserForm.submitted || lastName.dirty || lastName.touched || lastName.errors.maxlength)"
+                      class="text-danger">
+
+                      <div *ngIf="lastName.errors && lastName.errors.required">
+                        Last Name is required.
+                      </div>
+                      <div *ngIf="lastName.errors && lastName.errors.maxlength">
+                        Last Name can be max 100 characters long.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-5">
+                  <div class="form-group">
+                    <label for="exampleFormControlInput1">Mobile Number*</label>
+                    <input (change)="validateMobile()" type="number" maxlength="10" required ngModel class="form-control" name="mobileNo" id="mobileNo" [(ngModel)]="mobileNoTxt"
+                      #mobileNo="ngModel" [disabled]="this.userId">
+                      <div [hidden]="isValidMobile" class=" text-danger">
+                        Mobile Number is not Valid
+                      </div>
+                    <div *ngIf="mobileNo.invalid && (addUserForm.submitted)" class="text-danger">
+                      <div *ngIf="mobileNo.errors && mobileNo.errors.required">
+                        Mobile Number is required.
+                      </div>
+                      <div *ngIf="mobileNo.errors && mobileNo.errors.maxlength">
+                        Mobile Number can be max 10 characters long.
+                      </div>
+                      <div *ngIf="mobileNo.errors && (!mobileNo.errors.required) && (!mobileNo.errors.maxlength)">
+                        Mobile Number is  not Valid.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <div class="form-group">
+                    <label for="exampleFormControlInput1">Email Id*</label>
+                    <input (change)="validateEmail()" type="text" required email maxlength="100" ngModel [pattern]="emailPattern" class="form-control" name="emailId" id="emailId"
+                      [(ngModel)]="emailIdTxt" #emailId="ngModel" [disabled]="this.userId">
+                    <div *ngIf="emailId.invalid && (addUserForm.submitted )" class="text-danger">
+                      <div *ngIf="emailId.errors && emailId.errors.required">
+                        Email Id is required.
+                      </div>
+                      <div *ngIf="emailId.errors && emailId.errors.maxlength">
+                        Email Id can be max 100 characters long.
+                      </div>
+                      <div *ngIf="emailId.errors && (!emailId.errors.required) && (!emailId.errors.maxlength)">
+                        Email Id is  not Valid.
+                      </div>
+                    </div>
+                    <!-- <div [hidden]="isValidEmail" class="text-danger">
+                      Email Id is  not Valid
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-5">
+                  <div class="form-group">
+                    <label for="exampleFormControlInput1">Password*</label>
+                    <input type="password" required minlength="6" ngModel class="form-control" name="password" id="password" [(ngModel)]="txtpassword"
+                      #password="ngModel" [disabled]="this.userId">
+                    <div *ngIf="password.invalid && (addUserForm.submitted || password.dirty || password.touched || password.errors.minlength)"
+                      class="text-danger">
+                      <div *ngIf="password.errors && password.errors.required">
+                        Password is required.
+                      </div>
+                      <div *ngIf="password.errors && password.errors.minlength">
+                        Password must be at least 6 characters long.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <div class="form-group">
+                    <label for="exampleFormControlInput1">Confirm Password*</label>
+                    <input type="password" required minlength="6" ngModel class="form-control" name="confirmPassword" id="confirmPassword" [(ngModel)]="txtconfirmPassword"
+                      #confirmPassword="ngModel" [disabled]="this.userId">
+                    <div *ngIf="confirmPassword.invalid && (addUserForm.submitted || (password.dirty  && confirmPassword.dirty) || confirmPassword.touched || confirmPassword.errors.minlength)"
+                      class="text-danger">
+                      <div *ngIf="confirmPassword.errors && confirmPassword.errors.required">
+                        Please Re-enter password.
+                      </div>
+                      <div *ngIf="confirmPassword.errors && confirmPassword.errors.minlength">
+                        Password must be at least 6 characters long.
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label class="checkbox checkbox-primary mt-3">
+                      <input type="checkbox" [checked]="isActive" (change)="isActive = !isActive" />
+                      <span class="check-mark"></span>Make this user active</label>
+                  </div>
+
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="“clearfix”"></div>
+
+        </div>
+
+        <hr>
+
+        <h3 class="header mt-5">Access Rights</h3>
+        <div class="row ">
+          <div class="col col-auto pt-1 ">
+            <label class="radio  form-check-inline">
+              <input type="radio" [(ngModel)]="role" name="role" class="form-control" value="user">
+              <span class="check-mark"></span> Make User
+            </label>
+          </div>
+          <div class="col col-auto pt-1 pr-0">
+            <label class="radio  form-check-inline">
+              <input type="radio" [(ngModel)]="role" name="role" value="admin" class="form-control">
+              <span class="check-mark"></span> Make Admin
+            </label>
+          </div>
+        </div>
+
+        <!-- <div class="row">
+          <div class="col-12">
+            <ul class="list-one">
+              <li>
+                <div class="form-group">
+                  <label class="checkbox checkbox-primary ">
+                    <input type="checkbox" name="selectAllRights" [(ngModel)]="selectAllRights" #selectAllRight="ngModel">
+                    <span class="check-mark"></span>Select All Rights</label>
+                </div>
+              </li>
+
+              <li *ngFor="let permissionConfiguration of permissionConfigurations" ngModelGroup="{{permissionConfiguration.name}}">
+                <div class="form-group">
+                  <label class="checkbox checkbox-primary font-weight-bold ">
+                    <input type="checkbox" name="{{permissionConfiguration.name}}" [checked]="selectAllRights">
+                    <span class="check-mark"></span>{{permissionConfiguration.name}}</label>
+                </div>
+                <ul>
+                  <li *ngFor="let permission of permissionConfiguration.permissions">
+                    <div class="form-group">
+                      <label class="checkbox checkbox-primary ">
+                        <input type="checkbox" ngModel name="{{permission.code}}" [checked]="selectAllRights">
+                        <span class="check-mark"></span>{{permission.name}}</label>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+
+            </ul>
+          </div>
+        </div> -->
+
+        <div class="row">
+          <div class="col-12">
+            <ul class="list-one">
+              <li *ngIf="role == 'user'">
+                <div class="form-group">
+                  <label class="checkbox checkbox-primary ">
+                    <input type="checkbox" [checked]="allSelected" (change)="configurationsChecked($event.target.checked)">
+                    <span class="check-mark"></span>Select All Rights</label>
+                </div>
+              </li>
+              <div *ngIf="role == 'user'">
+              <li *ngFor="let permissionConfiguration of permissionConfigurations2" ngModelGroup="{{permissionConfiguration.name}}">
+                <div class="form-group">
+                  <label class="checkbox checkbox-primary font-weight-bold ">
+                    <input type="checkbox" [checked]="permissionConfiguration.isActive" (change)="permissionConfigurationChecked(permissionConfiguration, $event.target.checked)" />                      
+                    <span class="check-mark"></span>{{permissionConfiguration.name}}</label>
+                </div>
+                <ul>
+                  <li *ngFor="let permission of permissionConfiguration.permissions">
+                    <div class="form-group">
+                      <label class="checkbox checkbox-primary ">
+                        <input type="checkbox" [checked]="permission.isActive" (change)="onCheckboxClick(permission, $event.target.checked)"/>   
+                        <span class="check-mark"></span>{{permission.name}}</label>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </div>
+              <div *ngIf="role == 'admin'">
+              <li *ngFor="let permissionConfiguration of permissionConfigurations2" ngModelGroup="{{permissionConfiguration.name}}">
+                <div class="form-group">
+                  <label class="checkbox checkbox-primary font-weight-bold ">
+                    <input  [disabled]="true" type="checkbox" [checked]="true" (change)="permissionConfigurationChecked(permissionConfiguration, $event.target.checked)" />                      
+                    <span class="check-mark"></span>{{permissionConfiguration.name}}</label>
+                </div>
+                <ul>
+                  <li *ngFor="let permission of permissionConfiguration.permissions">
+                    <div class="form-group">
+                      <label class="checkbox checkbox-primary ">
+                        <input [disabled]="true" type="checkbox" [checked]="true" (change)="permission.isActive = !permission.isActive" />   
+                        <span class="check-mark"></span>{{permission.name}}</label>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </div>
+
+
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-5 text-center">
+          <button type="button" class="btn btn-outline-dark" (click)="onCancelForm()">CANCEL
+
+          </button>
+          <input type="submit" class="btn btn-primary" value="SAVE">
+
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </form>
+</div>

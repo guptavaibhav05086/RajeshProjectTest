@@ -1,0 +1,358 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px',position: 'absolute', height:'100vh'}"></ngx-loading>
+
+<!---->
+<div class="main">
+
+
+  <div class="card-body content-card-body content-center-body" *ngIf="showEmptyForm">
+    <div class="block-content text-center">
+      <h3 class="yellow"> Buyers PO List is Empty</h3>
+    </div>
+
+  </div>
+  <!---->
+
+  <div class="row mr-0" *ngIf="showBuyersOrderList">
+    <div class="col-lg-8">
+     <div class="pl-2"> <h2>Buyer's PO</h2></div>
+    </div>
+    <div class="col-lg-4">
+      <div class="form-group has-feedback">
+
+
+        <div class="row justify-content-md-center mb-3">
+
+          <div class="col search-icon">
+            <label for="exampleInputEmail1">
+            </label>
+            <div class="input-group ">
+              <!-- <input class="form-control border-right-0" [(ngModel)] = "searchPONbr" placeholder="Search by PO number"> -->
+              <ng-template #rt let-r="result" let-t="term">
+                {{ r.orderNumber}}
+              </ng-template>
+              <input id="typeahead-template" placeholder="Search by PO number" type="text" class="form-control" [(ngModel)]="modelSearch"
+                [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="searchSelected($event)"
+              />
+              <span *ngIf="modelSearch == null" class="input-group-addon bg-white border-left-0" (click)="searchByPONumber(modelSearch)">
+                <i class="fa fa-search"></i>
+              </span>
+              <span *ngIf="modelSearch != null" class="input-group-addon bg-white border-left-0" (click)="clearSearch()">
+                <i class="fa fa-close"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="" *ngIf="showBuyersOrderList">
+    <div id="wrapper" class="card-body content-card-body">
+      <div class="form-one">
+        <div class="row">
+          <div class="col ">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Select Buyer
+              </label>
+              <div class="select-box">
+                <label>
+                  <select [(ngModel)]="buyer" class="form-control form-control-sm" (change)="onFilterChange()">
+                    <option value="All Buyers">All Buyers</option>
+                    <option value="{{buyer.companyName}}" *ngFor="let buyer of buyers">{{buyer.companyName}}</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Select Manufacturer</label>
+              <div class="select-box">
+                <label>
+                  <select class="form-control form-control-sm" [(ngModel)]="manufacturer" (change)="onFilterChange()">
+                    <option value="All Manufacturers">All Manufacturers</option>
+                    <option value="{{manufacturer.companyName}}" *ngFor="let manufacturer of manufacturers ">{{manufacturer.companyName}}</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col ">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Select Location
+              </label>
+              <div class="select-box">
+                <label>
+                  <select [(ngModel)]="Location" class="form-control form-control-sm" (change)="onFilterChange()">
+                    <option value="All Location" selected="selected">All Locations</option>
+                    <option value="{{location.name}}" *ngFor="let location of locations ">{{location.name}}</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col ">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Select Status
+              </label>
+              <div class="select-box">
+                <label>
+                  <select [(ngModel)]="status" class="form-control form-control-sm" (change)="onFilterChange()">
+                    <option value="All Status" selected="selected">All Status</option>
+                    <option value="New">New </option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Accepted">Accepted</option>
+                    <option value="Ready to Ship">Ready to Ship</option>
+                    <option value="Manufacturer Confirmed">Manufacturer Confirmed</option>
+                    <option value="Invoiced">Invoiced</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Awaiting Payments">Awaiting Payments</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col col-lg-4">
+            <label>Order date</label>
+            <div class="row">
+              <div class="col col-lg-5 pr-0">
+                <div class="form-group">
+
+                  <input [(ngModel)]="orderdateFrom" class="form-control form-control-sm" type="date" (change)="onFilterChange()">
+                  <label>From Date</label>
+                </div>
+              </div>
+              <div class="col col-lg-5  pr-0">
+                <div class="form-group">
+
+                  <input [(ngModel)]="orderdateTo" class="form-control form-control-sm" type="date" placeholder="To Date" (change)="onFilterChange()">
+                  <label>To Date</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col col-lg-2">
+          <button class="btn btn-default" (click)="onFilterChange()">{{this.btnFilter}}</button>
+        </div> -->
+        <div class="col  mt-3">
+            <button type="button" class="btn btn-outline-danger ml-0 mb-2 text-left w-120" (click)='clearSearch(0)'>
+                <i class="fa font-22 fa-times-circle" aria-hidden="true"></i> Clear Filter</button>
+        </div>
+        </div>
+      </div>
+      
+    
+      <div class="font-weight-bold color-grey-off" *ngIf="showGrid">
+        Total Orders-
+        <span class="color-black-off">{{FilteredBuyersPOs.length}}</span>
+      </div>
+
+      <!-- Code for datatable starts here-->
+      <div class="table-body">
+        <div  class="table-responsive text-center">
+          <table  class="table table-striped table-One">
+            <thead>
+              <tr>
+                <th scope="col">Buyer Name</th>
+                <th scope="col"> Location</th>
+                <th scope="col">PO Number</th>
+                <th scope="col">Order Created</th>
+                <th scope="col">Manufacturer Name</th>
+                <th scope="col">Remarks</th>
+                <th scope="col">Amount ₹</th>
+                <th scope="col">Order Status</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <!-- <tbody *ngIf="FilteredBuyersPOs.length == 0">
+              <tr>
+                <td>No data found.</td>
+              </tr>
+            </tbody> -->
+            <tbody  *ngIf="showGrid" >
+              <tr *ngFor="let buyerpo of pagedItems">
+                <td>{{ buyerpo.buyer.companyName }}</td>
+                <td>{{ buyerpo.deliveryAddressId }}</td>
+                <td class="po-nbr">
+                  <a (click)="onPONumberClick(buyerpo.orderNumber)">{{ buyerpo.orderNumber }}</a>
+                </td>
+
+                <td>{{ buyerpo.orderDate | date:'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{ buyerpo.manufacturer.companyName }}</td>
+                <td class="view-remark">
+                  <a (click)="viewRemarks(viewRemark, buyerpo.createdAt, buyerpo.orderNumber, buyerpo.remarks, buyerpo._id)">View</a>
+                </td>
+                <td>{{inrFormatter(buyerpo.grossAmount)}}</td>
+                <td>
+                  <div class="text-success" *ngIf="buyerpo.status == 'New'">{{buyerpo.status}}</div>
+                  <div class="text-success" *ngIf="buyerpo.status == 'Accepted'">{{buyerpo.status}}</div>
+                  <div class="text-warning" *ngIf="buyerpo.status == 'Awaiting Payments'">{{buyerpo.status}}</div>
+                  <div class="color-blue-off" *ngIf="buyerpo.status == 'Manufacturer Confirmed'">{{buyerpo.status}}</div>
+                  <div class="text-warning" *ngIf="buyerpo.status == 'Ready to Ship'">{{buyerpo.status}}</div>
+                  <div class="text-success" *ngIf="buyerpo.status == 'Invoiced'">{{buyerpo.status}}</div>
+                  <div class="text-muted" *ngIf="buyerpo.status == 'Delivered'">{{buyerpo.status}}</div>
+                  <div class="text-danger" *ngIf="buyerpo.status == 'Rejected'"><span>{{buyerpo.status}} <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" ngbTooltip="{{buyerpo.rejectReason}}"></i></span></div>
+                </td>
+                <td class="change-order-st">
+                  <a (click)="changeOrderStatus(changeStatus,buyerpo.createdAt, buyerpo.orderNumber, buyerpo.status, buyerpo._id)">Change</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+           <!-- Pagination-->
+           <div *ngIf="FilteredBuyersPOs.length == 0" class="block-content text-center">
+              <h3 class="yellow"> No data found</h3>
+          </div>
+
+      <ul *ngIf="pager.pages && pager.pages.length" class="pagination ml-2">
+          <li [ngClass]="{disabled:pager.currentPage === 1}">
+              <a (click)="setPage(1)">First</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === 1}">
+              <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+          </li>
+          <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+              <a (click)="setPage(page)">{{page}}</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a (click)="setPage(pager.currentPage + 1)">Next</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a (click)="setPage(pager.totalPages)">Last</a>
+          </li>
+      </ul>
+
+        </div>
+      </div>
+     
+      <!-- Code for datatable starts here-->
+    </div>
+  </div>
+</div>
+
+
+<!-- Model For View Remarks Starts Here-->
+
+<ng-template #viewRemark let-c="close" let-d="dismiss">
+  <!-- <div class="modal fade" id="Buyers_PO_Remarks" >
+      <div class="modal-dialog modal-dialog-centered " role="document"> 
+        
+    </div>
+</div> -->
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title text-center" id="NewPricingTitle">Remarks </h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true" (click)="d('Cross click')">✕</span>
+      </button>
+    </div>
+    <div class="modal-body mt-0 pt-0">
+
+      <div class="row table-filter">
+        <div class="col">
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-5 col-form-label">PO Number:</label>
+            <div class="col-sm-7">
+              <input type="text" readonly="" class="form-control-plaintext font-weight-bold" value="{{modalData.orderNumber}}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-5 col-form-label">PO Date:</label>
+            <div class="col-sm-7">
+              <input type="text" readonly="" class="form-control-plaintext font-weight-bold" value="{{modalData.orderDate  | date:'dd/MM/yyyy'}}">
+              <!-- <label>{{modalData.orderDate | date:'dd/MM/yyyy'}}</label> -->
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <hr/>
+      <textarea class="text-area" [(ngModel)]="remarks"></textarea>
+      <!-- <p class="text-center modal-p">{{modalData.remarks}}</p> -->
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary modal-add" (click)="updateRemarks()">ADD</button>
+    </div>
+  </div>
+</ng-template>
+<!-- Model For View Remarks Ends Here-->
+
+<!-- Model for change order status starts here-->
+<ng-template #changeStatus let-c="close" let-d="dismiss">
+  <div class="modal-dialog modal-dialog-centered m-0" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="NewPricingTitle">Update Order Status - {{changeOrderStatusData.orderNumber}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" (click)="d('Cross click')">✕</span>
+        </button>
+      </div>
+      <div class="modal-body mt-0 pt-0">
+
+        <div class="row table-filter">
+          <div class="col">
+            <div class="form-group row">
+              <label for="staticEmail" class="col-sm-5 col-form-label">PO Date:</label>
+              <div class="col-sm-7">
+                <input type="text" readonly="" class="form-control-plaintext font-weight-bold" value="{{changeOrderStatusData.orderDate | date:'dd/MM/yyyy'}}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="staticEmail" class="col-sm-5 col-form-label">Current Status:</label>
+              <div class="col-sm-7">
+                <input type="text" readonly="" *ngIf="changeOrderStatusData.status == 'New'" class="form-control-plaintext text-success"
+                  value="{{changeOrderStatusData.status}}" />
+                <input type="text" readonly="" *ngIf="changeOrderStatusData.status == 'Accepted'" class="form-control-plaintext text-success"
+                  value="{{changeOrderStatusData.status}}" />
+                <input type="text" readonly="" *ngIf="changeOrderStatusData.status == 'Awaiting Payments'" class="form-control-plaintext text-warning"
+                  value="{{changeOrderStatusData.status}}" />
+                <input type="text" readonly="" *ngIf="changeOrderStatusData.status == 'Manufacturer Confirmed'" class="form-control-plaintext color-blue-off"
+                  value="{{changeOrderStatusData.status}}" />
+                <input type="text" readonly="" *ngIf="changeOrderStatusData.status == 'Ready to Ship'" class="form-control-plaintext text-warning"
+                  value="{{changeOrderStatusData.status}}" />
+                <input type="text" readonly="" *ngIf="changeOrderStatusData.status == 'Invoiced'" class="form-control-plaintext text-success"
+                  value="{{changeOrderStatusData.status}}" />
+                <input type="text" readonly="" *ngIf="changeOrderStatusData.status == 'Delivered'" class="form-control-plaintext text-muted"
+                  value="{{changeOrderStatusData.status}}" />
+                <input type="text" readonly="" *ngIf="changeOrderStatusData.status == 'Rejected'" class="form-control-plaintext text-danger"
+                  value="{{changeOrderStatusData.status}}" />
+              </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Change Status:
+                </label>
+                <div class="select-box box-modal mt-2">
+                    <label>
+                      <select class="form-control form-control-sm" [(ngModel)]="newStatus">
+                        <option [value]="" disabled [selected]="'Select Status'">Select Status</option>
+                          <option value="Ready to Ship">Ready to Ship</option>
+                          <option value="Manufacturer Confirmed">Manufacturer Confirmed</option>
+                          <option value="Invoiced">Invoiced</option>
+                          <option value="Delivered">Delivered</option>
+                          <option value="Awaiting Payments">Awaiting Payments</option>
+                      </select>
+                    </label>
+                  </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <div class="container-fulid">
+          <div class=" my-3">
+            <div class="col text-center">
+              <button type="button" class="btn btn-outline-dark" (click)="d('CANCEL click')">CANCEL</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" (click)="updateStatus(changeOrderStatusData.orderId)">UPDATE</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- Model for change order status ends here-->

@@ -1,0 +1,240 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px' }"></ngx-loading>
+
+<div class="modal-header">
+	<h4 class="modal-title">Add/Edit Product</h4>
+	<button type="button" class="close" (click)="activeModal.close('Cross click')">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="modal-body">
+		<form #productForm="ngForm">
+	<div class="row ">
+		<div class="col-9">
+			<div class="row">
+				<div class="col-4">
+					<div class="form-group">
+						<label for="productCode">Product Code* </label>
+						<input type="text" maxlength="20" [(ngModel)]="product.code" name="productCode" 
+						class="form-control" id="productCode" [disabled]="disableCode">
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="form-group">
+						<label for="productCategory">Product Category*</label>
+						<div class="select-box">
+							<label>
+								<select class="form-control form-control-sm" id="productCategory" name="productCategory" required
+								#productCategory="ngModel" [(ngModel)]="product.category._id">
+									<option value="" disabled selected>Select Category</option>
+									<option *ngFor="let category of categories" [value]="category._id">{{category.name}}</option>
+								</select>
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="form-group">
+						<label for="productSubCategory">Sub Category*</label>
+						<div class="select-box">
+							<label>
+								<select class="form-control form-control-sm" id="productSubCategory" required
+								name="productSubCategory" [(ngModel)]="product.subCategory._id">
+									<option value="" disabled selected>Select Sub Category</option>
+									<option *ngFor="let subcategory of subCategories" [value]="subcategory._id">{{subcategory.name}}</option>
+								</select>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-4">
+					<div class="form-group">
+						<label for="productType">Product Type*</label>
+						<div class="select-box" *ngIf="product.type._id != '0'">
+							<label>
+								<select class="form-control form-control-sm" id="typeName" name="typeName" required
+								[(ngModel)]="product.type._id">
+									<option value="" disabled selected>Select Product Type</option>
+									<option *ngFor="let productType of productTypes" [value]="productType._id">{{productType.name}}</option>
+									<option [value]="0" selected>Other</option>
+								</select>
+							</label>
+						</div>
+						<input type="text" *ngIf="product.type._id == '0'" [(ngModel)]="productType" required
+						name="productTypeOther" class="form-control" id="productTypeOther">
+						<button *ngIf="product.type._id == '0'" class="btn btn-outline-dark  text-left py-0 border-0" type="button" (click)="initialisePrevProductType()">
+							<i aria-hidden="true" class="fa fa-close"></i>
+						</button>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="form-group">
+						<label for="productname">Product Name* </label>
+						<input type="text" maxlength="250" [(ngModel)]="product.name" required
+						class="form-control" name="productname" id="productname">
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="form-group">
+						<label for="uom">UOM </label>
+						<input type="text" maxlength="20" [(ngModel)]="product.uom" class="form-control" required
+						 name="uom" id="uom">
+					</div>
+				</div>
+
+
+			</div>
+			<div class="row">
+				<div class="col-4">
+					<div class="form-group">
+						<label for="brand">Brand*</label>
+						<div class="select-box" *ngIf="product.brand._id != '0'">
+							<label>
+								<select class="form-control form-control-sm" id="brandName" name="brandName" required
+								 [(ngModel)]="product.brand._id">
+									<option value="" disabled selected>Select Brand*</option>
+									<option *ngFor="let brand of brands" [value]="brand._id">{{brand.name}}</option>
+									<option [value]="0" selected>Other</option>
+								</select>
+							</label>
+						</div>
+						<input type="text" *ngIf="product.brand._id == '0'" [(ngModel)]="brand" required
+						class="form-control" name="brand" id="brandOther">
+						<button *ngIf="product.brand._id == '0'" class="btn btn-outline-dark  text-left py-0 border-0" type="button" (click)="initialisePrevBrand()">
+							<i aria-hidden="true" class="fa fa-close"></i>
+						</button>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="form-group">
+						<label for="gradeSpecs">Grade/Specs*</label>
+						<input type="text" maxlength="20" [(ngModel)]="product.gradeOrSpec" required
+						class="form-control" name="grade" id="gradeSpecs">
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="form-group">
+						<label for="hsnCode">HSN Code *</label>
+						<input type="text" maxlength="20" [(ngModel)]="product.hsnCode" required
+						class="form-control" name="hsn" id="hsnCode">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+					<div class="col-4">
+						<div class="form-group">
+								
+								<ui-switch [(ngModel)]="product.statusChecked" name="active" required></ui-switch>
+							<!-- <input type="checkbox" [(ngModel)]="product.statusChecked" name="active" required
+							class="form-control"  id="active">  -->
+
+							
+						</div>
+						<label for="productStatus" *ngIf="product.statusChecked">Active</label>
+								<label for="productStatus" *ngIf="!product.statusChecked">InActive</label>
+					</div>
+					<div class="col-4">
+						
+					</div>
+					<div class="col-4">
+						
+					</div>
+				</div>
+		</div>
+		<div class="col-3">
+			<div class="row">
+
+
+				<div class="col">
+					<div class="upload-image">
+						<div class="upload-image-content" id="logoInfo" *ngIf="product.imageUrl === null">
+							<i class="fa fa-cloud-upload" aria-hidden="true"></i>
+							<br> Upload Image
+						</div>
+						<div class="upload-image-content" id="logoInfo" *ngIf="product.imageUrl != null">
+							<img [src]="product.imageUrl" required height="110px" width="110px">
+						</div>
+					</div>
+					<div class="mt-2 color-grey-off-light">
+						<div class="link-but">
+							<input type="file" name="logoUpload" id="logoUpload" required [(ngModel)]="product.imageUrl" (change)="fileSelect($event.target.files,'photo1')"
+							 #logoUpload="ngModel" />
+							<a href="">Upload Image*</a>
+						</div>
+						Max file size 5 mb
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="“clearfix”"></div>
+	</div>
+	<p class="text-center modal-p color-grey-off">
+		Adding details about the product could attract you more customers and boost your business.
+	</p>
+	<div class="form-group">
+		<label>Product Description*</label>
+		<textarea class="form-control" [(ngModel)]="product.description" required name="prodDescription"
+		 id="productDescription" rows="3"></textarea>
+	</div>
+	<label>Product Dimension</label>
+	<div class="form-one form-two">
+		<div class="row justify-content-md-center">
+
+			<div class="form-inline form-one">
+				<div class="col">
+					<div class="form-group ">
+						<label class=" col-form-label">Length (in cm)</label>
+						<input type="number" [(ngModel)]="product.dimension.lengthInCm" name="lengthInCm" class="form-control  form-control-sm">
+					</div>
+				</div>
+				<div class="col px-0 col-lg-auto">
+					<div class="form-group ">
+						<label class=" col-form-label pt-5">X </label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group ">
+						<label class=" col-form-label">Breadth (in cm)</label>
+						<br/>
+						<input type="number" [(ngModel)]="product.dimension.breadthInCm" name="breadthInCm" class="form-control  form-control-sm">
+					</div>
+				</div>
+				<div class="col px-0 col-lg-auto">
+					<div class="form-group ">
+						<label class=" col-form-label pt-5">X </label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group ">
+						<label class=" col-form-label">Height (in cm)</label>
+						<br/>
+						<input type="number" [(ngModel)]="product.dimension.heightInCm" name="heightInCm" class="form-control  form-control-sm">
+					</div>
+				</div>
+				<div class="col px-0 col-lg-auto">
+					<div class="form-group ">
+						<label class=" col-form-label pt-5">X </label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group ">
+						<label class=" col-form-label">Weight (in kg)</label>
+						<br/>
+						<input type="number" [(ngModel)]="product.dimension.weightInKg" name="weightInKg" class="form-control form-control-sm">
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="form-group mt-4">
+		<label>Application of Product*</label>
+		<textarea class="form-control" [(ngModel)]="product.areasOfApplication" required
+		name="areasOfApplication" id="ApplicationOfProducts" rows="3"></textarea>
+	</div>
+		</form>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn btn-primary" [disabled]="!productForm.form.valid" (click)="addEditProduct();">Submit</button>
+</div>

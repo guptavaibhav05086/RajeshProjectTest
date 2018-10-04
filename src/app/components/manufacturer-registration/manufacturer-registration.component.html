@@ -1,0 +1,915 @@
+<!-- {{buyerForm.form.valid}} -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px' }"></ngx-loading>
+<div class="container-fulid container-body" >
+	<div class="">
+		
+
+		<h2>Manufacturer Registration </h2>
+
+		<div class=" bs-wizard row mx-5 justify-content-md-center">
+
+			<div class="col-4 bs-wizard-step active">
+				<a href="Parent_AddSellerVideo.html"></a>
+				<div class="progress">
+					<div class="progress-bar"></div>
+				</div>
+				<a  class="bs-wizard-dot"></a>
+				<div class="bs-wizard-info text-center">BASIC DETAILS</div>
+			</div>
+
+			<div class="col-4 bs-wizard-step ">
+				<!-- complete -->
+				<div class="progress">
+					<div class="progress-bar"></div>
+				</div>
+				<a  class="bs-wizard-dot"></a>
+				<div class="bs-wizard-info text-center">PRODUCT DETAILS</div>
+			</div>
+			
+
+		</div>
+
+		<div class="card-body content-card-body ">
+			<div class="form-one">
+
+
+
+				<form #buyerForm="ngForm">
+					<!-- Basic Details -->
+					<div class="row" *ngIf="newCompanyDetails.seqCode != 0 && newCompanyDetails.seqCode != undefined">
+							<div class="col-4">
+								<div class="form-group">
+									<label for="exampleFormControlInput1" style="font-weight: 800"><b>Manufacturer Code: M - {{newCompanyDetails.seqCode}} </b> </label>
+									
+								</div>
+							</div>
+						</div>
+					<div class="row justify-content-between ">
+							
+						<div class="col-7">
+							<div class="row">
+								<div class="col-4">
+									<div class="form-group">
+										<label for="name">Company Name<span style="color:red">*</span></label>
+										<input type="text" class="form-control" id="name" required maxlength="500" [(ngModel)]="newCompanyDetails.companyName" name="name"
+										 #name="ngModel">
+
+									</div>
+								</div>
+								<div class="col-4" *ngIf="false">
+									<div class="form-group">
+										<label for="businessType">Business Type<span style="color:red">*</span></label>
+										<div class="select-box">
+											<label>
+												<select class="form-control form-control-sm" id="businessType" required [(ngModel)]="newCompanyDetails.businessType" name="businessType"
+												 #businessType="ngModel" aria-placeholder="select">
+													<option [ngValue]="null">Select Business Type</option>
+													<option *ngFor="let bType of newCompanyDetails.BusinessTypes" [value]="bType">{{bType}}</option>
+												</select>
+											</label>
+										</div>
+
+
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">
+									<div class="form-group">
+										<label for="gstin">GSTIN<span style="color:red">*</span></label>
+										<input type="text" class="form-control" id="gstin" required [pattern]="gstinPattern" maxlength="15" [(ngModel)]="newCompanyDetails.gstIn"
+										 name="gstin" #gstin="ngModel">
+										 <div *ngIf="ShowManufacturerProductsPanel">
+												<div *ngIf="gstin.errors?.pattern" class=" text-danger">
+														GSTIN is not in correct Format
+													</div>
+
+										 </div>
+										
+										<!-- <div [hidden]="gstin.valid || gstin.pristine"
+                                         class="alert alert-danger">
+                                         GSTIN is required
+                                    </div> -->
+
+
+									</div>
+								</div>
+								<div class="col-4">
+
+									<div class="form-group">
+										<label for="cin">CIN Number </label>
+										<input type="text" class="form-control" id="cin" maxlength="50" [(ngModel)]="newCompanyDetails.cinNumber" name="cin" #cin="ngModel">
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="form-group">
+										<label for="CPAN"> PAN Number<span style="color:red">*</span> </label>
+										<input type="text" class="form-control" id="CPAN" required [pattern]="panPattern" maxlength="10" [(ngModel)]="newCompanyDetails.panNumber"
+										 name="CPAN" #CPAN="ngModel">
+										 <div *ngIf="ShowManufacturerProductsPanel">
+										<div *ngIf="CPAN.errors?.pattern" class=" text-danger">
+											Company PAN is not in correct Format
+										</div>
+										 </div>
+									</div>
+
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">
+									<div class="form-group">
+										<label for="established">Established</label>
+										<div class="select-box">
+											<label>
+												<select class="form-control form-control-sm" id="established" [(ngModel)]="newCompanyDetails.established" name="established"
+												 #established="ngModel" aria-placeholder="select">
+													<option [ngValue]="null">Select Year</option>
+													<option *ngFor="let year of newCompanyDetails.EstablishedYear" [value]="year">{{year}}</option>
+												</select>
+											</label>
+										</div>
+
+										
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="form-group">
+										<label for="legalStatus">Legal Status<span style="color:red">*</span></label>
+										<div class="select-box">
+											<label>
+												<select class="form-control" id="legalStatus" required [(ngModel)]="newCompanyDetails.legalStatus" name="legalStatus" #legalStatus="ngModel">
+													<option [ngValue]="null">Select Legal Status</option>
+													<option *ngFor="let legal of newCompanyDetails.LegalStatuses" [value]="legal">{{legal}}</option>
+												</select>
+											</label>
+										</div>
+
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="form-group">
+										<label for="WURL">WebSite URL </label>
+										<input type="text" class="form-control" id="WURL" maxlength="500" [(ngModel)]="newCompanyDetails.websiteUrl" name="WURL"
+										 #WURL="ngModel">
+
+									</div>
+								</div>
+							</div>
+							<div class="row" *ngIf="false">
+
+
+								<div class="col-4">
+									<div class="form-group">
+										<label class="checkbox checkbox-primary mt-3" for="loanAssistance">
+											<input type="checkbox" class="form-control" id="loanAssistance" [(ngModel)]="newCompanyDetails.loanAssistanceRequired" name="loanAssistance"
+											 #loanAssistance="ngModel">
+											<span class="check-mark"></span>Buyer require loan assistance</label>
+									</div>
+								</div>
+								<div class="col-4">
+
+									<div class="form-group">
+										<label for="loanAmount">Loan Amount</label>
+
+										<input type="number" class="form-control" id="loanAmount" [(ngModel)]="newCompanyDetails.loanAmount" name="loanAmount" #loanAmount="ngModel"
+										 [disabled]="newCompanyDetails.loanAssistanceRequired === false">
+
+									</div>
+
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">
+									<div class="form-group">
+										<label for="mNumber">Mobile Number<span style="color:red">*</span></label>
+										<input type="number" class="form-control" id="mNumber" maxlength="10" required placeholder="+91 " (change)="validateCompanyBasicDetails('mobile','mNumber')"
+										 [(ngModel)]="newCompanyDetails.mobileNumber"  name="mNumber" #mNumber="ngModel" [ngClass]="{'ng-invalid':!newCompanyDetails.isMobileValid}">
+										 <div *ngIf="ShowManufacturerProductsPanel">
+										<div *ngIf="!newCompanyDetails.isMobileValid" class=" text-danger">
+											Mobile Number is not Valid
+										</div>
+
+										 </div>
+										
+
+
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="form-group">
+										<label for="lNumber">Landline Number </label>
+										<input type="number" class="form-control" id="lNumber"  [maxlength]="15"  [(ngModel)]="newCompanyDetails.landLineNumber"
+										 name="lNumber" #lNumber="ngModel" [ngClass]="{'ng-invalid':!newCompanyDetails.isLandlineVaid}">
+
+										 <div *ngIf="ShowManufacturerProductsPanel">
+										<div *ngIf="!newCompanyDetails.isLandlineVaid" class=" text-danger">
+											Landline Number can be max 15 digits
+										</div>
+										 </div>
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="form-group">
+										<label for="bemail">Email id </label>
+										<input type="text" class="form-control" id="bemail" maxlength="250" (change)="validateCompanyBasicDetails('email','bemail')"
+										 [(ngModel)]="newCompanyDetails.emailId" name="bemail"  #bemail="ngModel">
+										 <div *ngIf="ShowManufacturerProductsPanel">
+										<div *ngIf="!newCompanyDetails.isEmailValid && !bemail.pristine" class="text-danger">
+											Email Id is incorrect
+										</div>
+										 </div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">
+									<div class="form-group">
+										<label for="exampleFormControlInput1">Login Password </label>
+										<input type="password"  [(ngModel)]="newCompanyDetails.password" name="appPassword" maxlength="250" #appPassword="ngModel"
+										 class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12">
+									<div class="form-group">
+										<label class="checkbox checkbox-primary">
+											<input type="checkbox" class="form-control" id="notification" [(ngModel)]="newCompanyDetails.allowmSupplyToCallOrSMS" name="notification"
+											 #notification="ngModel">
+											<span class="check-mark"></span>
+											Allow mSupply to make calls/send SMS to the registered mobile number
+
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-5 up-image-body">
+							<div class="row">
+								<div class="col">
+									<div class="upload-image">
+										<div class="upload-image-content" id="logoInfo" *ngIf="newCompanyDetails.logoUrl === null">
+											<i class="fa fa-cloud-upload" aria-hidden="true"></i>
+											<br> Upload Image
+										</div>
+										<div class="upload-image-content" id="logoInfo" *ngIf="newCompanyDetails.logoUrl != null">
+											<img [src]="newCompanyDetails.logoUrl" height="110px" width="110px">
+										</div>
+										<!-- <input type="file"  name="logoUpload1" id="logoUpload1" 
+                                                required [(ngModel)]="newCompanyDetails.Logo"
+                                                 (change)="fileSelect($event.target.files,'logoInfo')" #logoUpload1="ngModel" /> -->
+
+									</div>
+									<div class="mt-2 color-grey-off-light">
+										<div class="link-but">
+											<input type="file" name="logoUpload" id="logoUpload" required [(ngModel)]="newCompanyDetails.Logo" (change)="fileSelect($event.target.files,'logoInfo')"
+											 #logoUpload="ngModel" />
+											<a href="" style="text-decoration: underline">  Upload Company Logo<span style="color:red">*</span></a>
+										</div>
+										Max file size 5 mb
+									</div>
+									<div *ngIf="ShowManufacturerProductsPanel">
+									<div *ngIf="!newCompanyDetails.isLogoImageValid" class=" text-danger">
+										 Upload Manufacturer's Photo 1
+									</div>
+									</div>
+								</div>
+								<div class="col">
+									<div class="upload-image">
+										<div class="upload-image-content" id="photo1" *ngIf="newCompanyDetails.photo1Url === null">
+											<i class="fa fa-cloud-upload" aria-hidden="true"></i>
+											<br> Upload Image*
+										</div>
+										<div class="upload-image-content" id="photo1" *ngIf="newCompanyDetails.photo1Url != null">
+											<img [src]="newCompanyDetails.photo1Url" height="110px" width="110px">
+										</div>
+										<!-- <input type="file" name="imageUpload1" id="imageUpload1"
+                                           required [(ngModel)]="newCompanyDetails.Photo1"
+                                           (change)="fileSelect($event.target.files,'photo1')"  /> -->
+
+									</div>
+									<div class="mt-2 color-grey-off-light">
+										<div class="link-but">
+											<input type="file" name="imageUpload" id="imageUpload" required [(ngModel)]="newCompanyDetails.Photo1" (change)="fileSelect($event.target.files,'photo1')"
+											/>
+											<a href="" style="text-decoration:underline"> Upload Manufacturer's Photo 1 <span style="color:red">*</span></a>
+										</div>
+
+										Max file size 5 mb
+									</div>
+									<div *ngIf="ShowManufacturerProductsPanel">
+									<div *ngIf="!newCompanyDetails.isPhoto1ImageValid" class=" text-danger">
+										 Photo 2*
+									</div>
+									</div>
+								</div>
+								<div class="col">
+									<div class="upload-image">
+										<div class="upload-image-content" id="photo2" *ngIf="newCompanyDetails.photo2Url === null">
+											<i class="fa fa-cloud-upload" aria-hidden="true"></i>
+											<br> Upload Image
+										</div>
+										<div class="upload-image-content" id="photo2" *ngIf="newCompanyDetails.photo2Url != null">
+											<img [src]="newCompanyDetails.photo2Url" height="110px" width="110px">
+										</div>
+										<!-- <input type="file"  name="imageUpload3" id="imageUpload3"
+                                             [(ngModel)]="newCompanyDetails.Photo2"
+                                           (change)="fileSelect($event.target.files,'photo2')" #imageUpload3="ngModel" /> -->
+
+									</div>
+									<div class="mt-2 color-grey-off-light">
+										<div class="link-but">
+											<input type="file" name="imageUpload2" id="imageUpload2" required [(ngModel)]="newCompanyDetails.Photo2" (change)="fileSelect($event.target.files,'photo2')"
+											 #imageUpload2="ngModel" />
+											<a href="" style="text-decoration:underline"> Upload Manufacturer's Photo 2<span style="color:red">*</span></a>
+										</div>
+										Max file size 5 mb
+									</div>
+									<div *ngIf="ShowManufacturerProductsPanel">
+									<div *ngIf="!newCompanyDetails.isPhoto2ImageValid" class=" text-danger">
+										 Photo 2*
+									</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<!-- End Basic Details Section -->
+
+					<!-- Proprietor Region -->
+					<hr/>
+					<h3 class="header mt-5" for="ProprietorLabel">Proprietor / Partner Details</h3>
+					<div *ngFor="let item of proprietorList;let j=index">
+						<div class="row ">
+							<div class="col-6">
+								<h3 class="sub">Proprietor / Partner {{j+1}}</h3>
+							</div>
+							<div class="col-6 text-right">
+								<button type="button" class="btn btn-outline-dark text-left mr-3 " (click)="removeProprietorSection(item.ProprietorID)" *ngIf="j > 0">
+									<i class="fa fa-trash" aria-hidden="true"></i> Remove</button>
+								<button type="button" class="btn btn-outline-primary" (click)="addNewPropriterSection()"> Add Proprietor/Partner</button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-7">
+								<div class="row">
+									<div class="col-4">
+										<div class="form-group">
+											<label for="pName">Proprietor Name </label>
+											<input type="text" class="form-control" id="pName{{j}}" maxlength="250" [(ngModel)]="item.name" name="pName{{j}}">
+
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-8">
+
+										<div class="form-group">
+											<label for="PropaLine1">Address Line 1 </label>
+											<input type="text" class="form-control" id="PropaLine1{{j}}" maxlength="250" [(ngModel)]="item.address.line1" name="PropaLine1{{j}}"
+											 #PropaLine1="ngModel">
+
+										</div>
+									</div>
+
+								</div>
+								<div class="row">
+									<div class="col-8">
+
+										<div class="form-group">
+											<label for="PropaLine2">Address Line 2 </label>
+											<input type="text" class="form-control" id="PropaLine2{{j}}" maxlength="250" [(ngModel)]="item.address.line2" name="PropaLine2{{j}}"
+											 #PropaLine2="ngModel">
+
+										</div>
+									</div>
+
+								</div>
+								<div class="row">
+									<div class="col-4">
+										<div class="form-group">
+											<label for="Propstate">State</label>
+											<div class="select-box">
+												<label>
+													<select class="form-control form-control-sm" id="Propstate{{j}}" [(ngModel)]="item.address.state" name="Propstate{{j}}" name="Propstate"
+													 #Propstate="ngModel" (change)="validateProprietor(item.ProprietorID,'state',j)">
+														<option [ngValue]="null">Select State</option>
+														<option *ngFor="let itemState of item.states" [value]="itemState._id">{{itemState.name}}</option>
+													</select>
+												</label>
+											</div>
+
+
+										</div>
+									</div>
+									<div class="col-4">
+										<div class="form-group">
+											<label for="propCity">City</label>
+											<div class="select-box">
+												<label>
+													<select class="form-control form-control-sm" id="propCity{{j}}" [disabled]="item.selectedCities.length === 0" [(ngModel)]="item.address.city"
+													 name="propCity{{j}}" #propCity="ngModel" (change)="validateProprietor(item.ProprietorID,'city',j)">
+														<option [ngValue]="null" >Select City</option>
+														<option *ngFor="let city of item.selectedCities" [value]="city._id">{{city.name}}</option>
+													</select>
+												</label>
+											</div>
+
+
+
+
+										</div>
+									</div>
+									<div class="col-4">
+										<div class="form-group">
+											<label for="proPinCode">Pin Code </label>
+											<input type="number" class="form-control" id="proPinCode{{j}}" maxlength="6" [(ngModel)]="item.address.pincode" name="proPinCode{{j}}"
+											 (change)="validateProprietor(item.ProprietorID,'pin',j)" #proPinCode="ngModel">
+											 <div *ngIf="ShowManufacturerProductsPanel">
+											<div [hidden]="item.isPinValid" class="text-danger">
+												Pin Code is incorrect
+											</div>
+											 </div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-4">
+
+										<div class="form-group">
+											<label for="pDOB">Proprietor Date of Birth </label>
+											<div class="input-group calender">
+
+												<input class="form-control" placeholder="yyyy-mm-dd" name="pDOB{{j}}" [(ngModel)]="item.dobDatePicker" ngbDatepicker #pDOB="ngbDatepicker"
+												 [minDate]="minDateForDatePicker" [maxDate]="maxDate" [ngClass]="{'ng-invalid': !item.isDOBValid}"
+												 >
+												<div class="input-group-append">
+													<button class="btn btn-outline-secondary" (click)="pDOB.toggle()" type="button">
+														<i class="fa fa-calendar" aria-hidden="true"></i>
+													</button>
+												</div>
+											</div>
+											<div *ngIf="!item.isDOBValid" class=" text-danger">
+												Age Should be above 18 years
+											</div>
+										</div>
+
+									</div>
+									<div class="col-4">
+										<div class="form-group">
+											<label for="pMNumber">Proprietor Mobile Number </label>
+											<input type="number" class="form-control" id="pMNumber{{j}}" placeholder="+91 " (change)="validateProprietor(item.ProprietorID,'mobile',j)"
+											 [(ngModel)]="item.mobileNumber" name="pMNumber{{j}}" [ngClass]="{'ng-invalid': !item.isMobileValid}" #pMNumber="ngModel">
+											 <div *ngIf="ShowManufacturerProductsPanel">
+											<div *ngIf="!item.isMobileValid" class=" text-danger">
+												Mobile Number is not Valid
+											</div>
+
+
+											 </div>
+
+
+										</div>
+									</div>
+									<div class="col-4">
+										<div class="form-group">
+											<label for="pemail">Proprietor Email id </label>
+											<input type="text" class="form-control" id="pemail{{j}}" maxlength="250" [(ngModel)]="item.emailId" name="pemail{{j}}" (change)="validateProprietor(item.ProprietorID,'email',j)"
+											 #pemail="ngModel">
+											 <div *ngIf="ShowManufacturerProductsPanel">
+											<div *ngIf="!item.isEmailValid" class="text-danger">
+												Email Id is incorrect
+											</div>
+											 </div>
+											<!-- <div [hidden]="item.isEmailValid"
+                                                             class="alert alert-danger">
+                                                             Email-Id is incorrect
+                                                        </div> -->
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+
+						</div>
+
+
+
+					</div>
+
+					<!-- End Proprietor Region -->
+
+
+
+
+
+
+					<!-- Start Invoice Address Region -->
+					<hr/>
+					<h3 class="header mt-5">Invoice Address</h3>
+					<div class="row">
+						<div class="col-7">
+							<div class="row">
+								<div class="col-8">
+									<div class="form-group">
+										<label for="aInvoiceLine1">Address Line1<span style="color:red">*</span> </label>
+										<input type="text" class="form-control" id="aInvoiceLine1" required maxlength="250" [(ngModel)]="invoiceAddress.address.line1"
+										 name="aInvoiceLine1" #aInvoiceLine1="ngModel">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-8">
+									<div class="form-group">
+										<label for="aInvoiceLine2">Address Line 2<span style="color:red">*</span></label>
+										<input type="text" class="form-control" id="aInvoiceLine2" required maxlength="250" [(ngModel)]="invoiceAddress.address.line2"
+										 name="aInvoiceLine2" #aInvoiceLine2="ngModel">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">
+									<div class="form-group">
+										<label for="invoiceState">State<span style="color:red">*</span></label>
+										<div class="select-box">
+											<label>
+												<select class="form-control form-control-sm" id="invoiceState" required (change)="validateInvoiceAddress('state','invoiceState')"
+												 [(ngModel)]="invoiceAddress.address.state" name="invoiceState" #invoiceState="ngModel">
+													<option [ngValue]="null" >Select State</option>
+													<option *ngFor="let itemState of invoiceAddress.states" [value]="itemState._id">{{itemState.name}}</option>
+												</select>
+											</label>
+										</div>
+										<!-- <div [hidden]="invoiceState.valid || invoiceState.pristine" class=" text-danger">
+                                                                                        State is required
+                                                                                </div>
+                                                                                {{invoiceAddress.address.state}} -->
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="form-group">
+										<label for="invoiceCity">City<span style="color:red">*</span></label>
+										<div class="select-box">
+											<label>
+												<select class="form-control form-control-sm" id="invoiceCity" required [disabled]="invoiceAddress.selectedCities.length === 0"
+												 [(ngModel)]="invoiceAddress.address.city" name="invoiceCity" #invoiceCity="ngModel">
+													<option [ngValue]="null">Select City</option>
+													<option *ngFor="let city of invoiceAddress.selectedCities" [value]="city._id">{{city.name}}</option>
+												</select>
+											</label>
+										</div>
+										<!-- <div [hidden]="invoiceCity.valid || invoiceCity.pristine"
+                                                class="alert alert-danger">
+                                                City is required
+                                                </div> -->
+
+
+
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="form-group">
+										<label for="invoicePinCode">Pin Code<span style="color:red">*</span> </label>
+										<input type="number" class="form-control" id="invoicePinCode" maxlength="6" required [(ngModel)]="invoiceAddress.address.pincode"
+										 name="invoicePinCode" (change)="validateInvoiceAddress('pin','invoicePinCode')" #invoicePinCode="ngModel" [ngClass]="{'ng-invalid' : !invoiceAddress.isPinValid }">
+										 <div *ngIf="ShowManufacturerProductsPanel">
+										 <div [hidden]="invoiceAddress.isPinValid" class="text-danger">
+											Pin Code is incorrect
+										</div>
+									</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">
+									<div class="form-group">
+										<label for="invoiceCPerson">Contact Person Name</label>
+										<input type="text" class="form-control" id="invoiceCPerson" maxlength="250" [(ngModel)]="invoiceAddress.contactPerson.name"
+										 name="invoiceCPerson" #invoiceCPerson="ngModel">
+
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="form-group">
+										<label for="invoiceMNumber">Contact Person Phone </label>
+										<input type="number" class="form-control" id="invoiceMNumber" maxlength="10" placeholder="+91 " (change)="validateInvoiceAddress('mobile','invoiceMNumber')"
+										 [(ngModel)]="invoiceAddress.contactPerson.mobileNumber" name="invoiceMNumber" #invoiceMNumber="ngModel" [ngClass]="{'ng-invalid' : !invoiceAddress.isMobileValid}">
+										 <div *ngIf="ShowManufacturerProductsPanel">
+										<div *ngIf="!invoiceAddress.isMobileValid" class=" text-danger">
+											Mobile Number is not Valid
+										</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="form-group">
+										<label for="invoiceEmail">Contact Person Email Id </label>
+										<input type="text" class="form-control" id="invoiceEmail" maxlength="250" (change)="validateInvoiceAddress('email','invoiceEmail')"
+										 [(ngModel)]="invoiceAddress.contactPerson.emailId" name="invoiceEmail" #invoiceEmail="ngModel">
+										 <div *ngIf="ShowManufacturerProductsPanel">
+										 <div *ngIf="!invoiceAddress.isEmailValid" class=" text-danger">
+											Email Id is incorrect
+										</div>
+										 </div>
+										<!-- <div [hidden]="item.isEmailValid"
+                                                     class="alert alert-danger">
+                                                     Email Id is incorrect
+                                                </div>
+                                                <div [hidden]="item.isEmailFilled"
+                                                     class="alert alert-danger">
+                                                     Email Id is required
+                                                </div> -->
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-4">
+
+									<div class="form-group">
+										<label for="invoiceDesignation">Designation </label>
+										<input type="text" class="form-control" id="invoiceDesignation" maxlength="250" [(ngModel)]="invoiceAddress.contactPerson.designation"
+										 name="invoiceDesignation" #invoiceDesignation="ngModel">
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<!-- End Invoice Address Region -->
+
+					<!-- Start Bank Region -->
+					<hr/>
+					<h3 for="invoicePinCode" class="header mt-5">Bank Account Information </h3>
+
+					<div class="row">
+						<div class="col-7">
+							<div class="row">
+								<div class="col-4">
+									<div class="form-group">
+										<label for="acHolderName">Account Holder Name<span style="color:red">*</span> </label>
+										<input type="text" class="form-control" id="acHolderName" maxlength="250" required [(ngModel)]="bankInfo.accountHolderName"
+										 name="acHolderName" #acHolderName="ngModel">
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="form-group">
+										<label for="acNumber">Account Number<span style="color:red">*</span> </label>
+										<input type="text" class="form-control" id="acNumber" maxlength="15" required [(ngModel)]="bankInfo.accountNumber" name="acNumber"
+										 (change)="validateBankInfo('acNumberRe')" #acNumber="ngModel">
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="form-group">
+										<label for="acNumberRe">Re-Enter Account Number<span style="color:red">*</span> </label>
+										<input type="text" class="form-control" id="acNumberRe" maxlength="15" required (change)="validateBankInfo('acNumberRe')"
+										 [(ngModel)]="bankInfo.ReEnterAccountNumber" name="acNumberRe" #acNumberRe="ngModel" [ngClass]="{'ng-invalid' : !bankInfo.isReenterValid }">
+									</div>
+									<div *ngIf="ShowManufacturerProductsPanel">
+											<div *ngIf="!bankInfo.isReenterValid" class=" text-danger">
+													Account Number doesn't match
+												</div>
+									</div>
+									
+								</div>
+
+							</div>
+							<div class="row">
+								<div class="col-4">
+									<div class="form-group">
+										<label for="ifscCode">IFSC Code<span style="color:red">*</span> </label>
+										<input type="text" class="form-control" id="ifscCode" maxlength="15" required [(ngModel)]="bankInfo.ifscCode" name="ifscCode"
+										 #ifscCode="ngModel">
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="form-group">
+										<label for="accountType">Account Type<span style="color:red">*</span></label>
+										<div class="select-box">
+											<label>
+												<select class="form-control form-control-sm" id="accountType" required [(ngModel)]="bankInfo.accountType" name="accountType"
+												 #accountType="ngModel" aria-placeholder="select">
+													
+													<option [ngValue]="null" disabled selected>Select Account Type</option>
+													<option *ngFor="let bType of bankInfo.ACType" [value]="bType">{{bType}}</option>
+												</select>
+											</label>
+										</div>
+										{{bankInfo.selectedACType}}
+									</div>
+								</div>
+
+							</div>
+							<div class="row">
+								<div class="col-8">
+									<!-- <div class="form-group">
+                                                                                <label for="chequeUpload">Upload Cancelled Cheque*</label>
+                                                                                <label class="custom-file">
+                                                                                        <input #cheque type="file" class="custom-file-input" name="chequeUpload" id="chequeUpload" required (change)="selectCheque($event.target.files,'cheque',0)"
+                                                                                                [(ngModel)]="bankInfo.cancelledCheque"
+                                                                                        />
+                                                                                        <span class="custom-file-control"></span>
+                                                                                </label>
+                                                                                <div [hidden]="bankInfo.isChecqueValid" class=" text-danger">
+                                                                                        Please Upload Image Only
+                                                                                </div>
+                                                                                <div [hidden]="bankInfo.isChecqueSizeValid" class=" text-danger">
+                                                                                        File Size Exceeds 5 MB.
+                                                                                </div>
+                                                                        </div> -->
+									<div class="form-group">
+										<label for="chequeUpload">Upload Cancelled Cheque<span style="color:red">*</span></label>
+
+										<div class="input-group ml-0 fileUpload">
+											<input type="text" class="form-control" id="displayName" placeholder="Choose file..." aria-label="Choose file..." #chequeName>
+											<span class="input-group-btn">
+												<span class="btn btn-primary">Browse</span>
+												<input id="uploadBtn" type="file" class="upload" #cheque name="chequeUpload" id="chequeUpload" required (change)="selectCheque($event.target.files,'cheque')"
+												 [(ngModel)]="bankInfo.cancelledCheque" />
+											</span>
+										
+										</div>
+										<div *ngIf="ShowManufacturerProductsPanel">
+										<span *ngIf="bankInfo.chequeImageUrl !=null && bankInfo.chequeImageUrl != undefined">
+											<a [href]="bankInfo.chequeImageUrl" download>Download Cheque </a>
+										</span>
+										<div [hidden]="bankInfo.isChecqueValid" class=" text-danger">
+											Please Upload files with correct format Only
+										</div>
+										<div [hidden]="bankInfo.isChecqueSizeValid" class=" text-danger">
+											File Size Exceeds 5 MB.
+										</div>
+										</div>
+
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<!-- End Bank Region -->
+
+
+
+					<!-- Start Other Info Region -->
+					<hr/>
+					<h3 class="header mt-5" for="invoicePinCode">Other Information </h3>
+
+					<div class="row">
+						<div class="col-9">
+							<div class="row">
+								<div class="col-3">
+									<div class="form-group">
+										<label for="bSoftware">Billing Software </label>
+										<input type="text" class="form-control" id="bSoftware" maxlength="250" [(ngModel)]="otherInfo.billingSoftware" name="bSoftware"
+										 #bSoftware="ngModel">
+									</div>
+								</div>
+								<div class="col-3">
+									<div class="form-group">
+										<label for="turnOver">Turnover </label>
+										<input type="text" class="form-control" id="turnOver" maxlength="50" [(ngModel)]="otherInfo.turnOver" name="turnOver" #turnOver="ngModel">
+									</div>
+								</div>
+								<div class="col-3">
+									<div class="form-group">
+										<label for="salePerson">Sales Person Name</label>
+										<div class="select-box">
+											<label>
+												<select class="form-control form-control-sm" id="salesPerson" [(ngModel)]="otherInfo.salesPerson._id" name="salesPerson" #salesPerson="ngModel">
+													<option [ngValue]="null" disabled selected>Select Sales Person</option>
+													
+													<option *ngFor="let item of newCompanyDetails.otherInformation.salesPersonList" [value]="item._id">{{item.name}}</option>
+												</select>
+											</label>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<!-- End Other Info Region -->
+
+					<!--  Start Region Document & Attachments -->
+					<hr/>
+
+					<h3 class="header mt-5" for="documentAttachment">Documents &amp; Attachments</h3>
+
+					<div class="row">
+						<div class="col-7">
+							<div *ngFor="let item of docAttach;let i=index">
+								<div class="row">
+									<div class="col-1 align-self-center">{{i+1}}.</div>
+									<div class="col-4">
+										<div class="form-group">
+											<label for="docName">Document Name</label>
+											<input type="text" class="form-control" id="docName" maxlength="250" [(ngModel)]="item.documentName" name="docName{{i}}"
+											 #docName="ngModel">
+										</div>
+									</div>
+									<div class="col-4">
+										<div class="form-group">
+											<label for="exampleFormControlInput1">Upload Document</label>
+
+											<div class="input-group m-0 fileUpload">
+
+												<input type="text" class="form-control" #uploadDocNames id="" placeholder="Choose file..." aria-label="Choose file...">
+												<span class="input-group-btn">
+													<span class="btn btn-primary">Browse</span>
+													<input id="uploadBtn" type="file" name="docUpload{{i}}" id="docUpload{{i}}" (change)="uploadMultiplefileSelect($event.target.files,item.DocId)"
+													 [(ngModel)]="FileData" #uploadDoc="ngModel" class="upload" />
+												</span>
+												
+											</div>
+											<span *ngIf="downloadDisplay"><a [href]="item.fileUrl" download *ngIf="item.fileUrl != null && item.fileUrl != undefined">Download File</a></span>
+
+											<output id="uploadedDoc"></output>
+											<div *ngIf="ShowManufacturerProductsPanel">
+											<div [hidden]="item.isDocValid" class=" text-danger">
+												Please Upload files with correct format Only
+											</div>
+											<div [hidden]="item.isDocSizeValid" class=" text-danger">
+												File Size Exceeds 5 MB.
+											</div>
+											</div>
+										</div>
+
+									</div>
+									<div class="col-3  align-self-center">
+										<div class="form-group mb-0">
+											<a (click)="deleteDocumentAttachment(item.DocId)" *ngIf="i >= 1" class=" btn-minus" role="button" aria-pressed="true">
+												<i class="fa fa-minus-circle" aria-hidden="true"></i>
+											</a>
+											<a (click)="addDocumentAttachment()" class=" btn-plus ml-3" role="button" aria-pressed="true">
+												<i class="fa fa-plus-circle" aria-hidden="true"></i>
+											</a>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+							<!--End Region Document & Attachments -->
+						</div>
+
+
+
+
+					</div>
+
+
+
+
+
+
+
+
+
+					<!-- End Basic Details Section -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					<div class="mt-5 text-center">
+						<!--<span style="color:red">Enter Valid Values in all Fields</span>-->
+						<button type="submit" (click)="SaveDetails()" [disabled]="!buyerForm.form.valid" class="btn btn-primary">
+							Submit
+						</button>
+						<button (click)="ShowManufacturerProducts()" *ngIf="showNextProductButton"	 class="btn btn-primary">
+						Add/Edit Products
+						</button>
+
+					</div>
+
+
+					
+				</form>
+
+
+			</div>
+
+		</div>
+	</div>
+</div>

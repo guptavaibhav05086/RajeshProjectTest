@@ -1,0 +1,11 @@
+.card{
+    font-weight: bold;
+}
+.logo-slogan{
+    font-weight: bold;
+
+}
+.underline {
+    text-decoration: underline;
+}
+a{ font-weight: bold !important; color: #00B1FF !important;}
